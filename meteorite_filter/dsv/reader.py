@@ -11,6 +11,9 @@ class DSVReader:
     def line_num(self):
         return self._line_num
     
+    def __iter__(self):
+        return self
+    
     def __next__(self) -> list[str]:
         self._line_num += 1
         return self._file.readline().split(self.delimiter)
