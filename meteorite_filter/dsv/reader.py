@@ -22,3 +22,19 @@ class DSVReader:
     def __next__(self) -> list[str]:
         self._line_num += 1
         return next(self._file).rstrip(self._newline).split(self.delimiter)
+
+class DSVDictReader(DSVReader):
+    def __init__(self, dsv_path: str, delimiter=',', fieldnames: list[str] | None=None):
+        super().__init__(dsv_path, delimiter)
+
+        if fieldnames is None:
+            self._fieldnames = super().__next__()
+        else:
+            self._fieldnames = fieldnames
+    
+    @property
+    def fieldnames(self):
+        return self._fieldnames
+    
+    def __next__(self) -> dict[str, str]:
+        return dict(zip(self._fieldnames, super().__next__()))
