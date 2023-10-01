@@ -1,8 +1,13 @@
 class DSVReader:
-    def __init__(self, dsv_path: str, delimiter=','):
-        self._file = open(dsv_path, 'r')
+    def __init__(self, dsv_path: str, delimiter=',', newline: str | None=None):
+        self._file = open(dsv_path, 'r', newline=newline)
         self.delimiter = delimiter
         self._line_num = 0
+
+        if newline is None:
+            self._newline = '\n'
+        else:
+            self._newline = newline
     
     def __del__(self):
         self._file.close()
@@ -16,5 +21,4 @@ class DSVReader:
     
     def __next__(self) -> list[str]:
         self._line_num += 1
-        return self._file.readline().split(self.delimiter)
-
+        return next(self._file).rstrip(self._newline).split(self.delimiter)
