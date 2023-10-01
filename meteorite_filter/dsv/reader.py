@@ -1,4 +1,4 @@
-"""The dsv module provides classes for reading files in a
+"""The dsv.reader module provides classes for reading files in a
 Delimiter Seperated Value (DSV) format. The DSV format is a format for
 storing tabular data in a text file. Common delimiters include commas (CSV)
 and tabs (TSV).
