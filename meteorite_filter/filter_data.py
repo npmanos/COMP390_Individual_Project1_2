@@ -18,7 +18,7 @@ def main():
     # Create a reader
     reader = DSVDictReader('./data/meteorite_landings_data.txt', delimiter='\t', type_map=type_map)
 
-    # Filter the data
+    # Filter the data by mass
     heavy_meteorites = [row for row in reader if row['mass (g)'] is not None and row['mass (g)'] > 2_900_000]
 
     # Sort the data
@@ -40,7 +40,7 @@ def main():
     # Reset the reader
     reader = DSVDictReader('./data/meteorite_landings_data.txt', delimiter='\t', type_map=type_map)
 
-    # Filter the data
+    # Filter the data by year
     recent_meteorites = [row for row in reader if row['year'] is not None and row['year'] >= 2013]
 
     # Sort the data
