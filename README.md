@@ -2,7 +2,7 @@
 
 Bridgewater State University - Computer Science Dept.
 
-COMP390 - Software Engineering (Fall 2023)
+COMP390-002 - Software Engineering (Fall 2023)
 
 Prof. Joeseph Matta
 
@@ -20,7 +20,7 @@ This dataset is provided as a text file ([*'meteorite_landings_data.txt'*](data/
 
 For full project requirements, see [COMP390F23_code_assignment_1.pdf](docs/COMP390F23_code_assignment_1.pdf)
 
-## Output
+### Output
 
 This program will print two formatted tables to the terminal containing data entries filtered based on two criteria. The criteria and a partial output are shown below:
 
@@ -48,7 +48,7 @@ This program will print two formatted tables to the terminal containing data ent
     5    Northwest Africa 7855    2013
    ```
 
-## Running
+### Running
 
 This project requires `python >= 3.11`.
 
@@ -81,3 +81,7 @@ This project requires `python >= 3.11`.
    ```
    python3 ./meteorite_filter/filter_data.py
    ```
+
+## Project Status
+
+All project requirements completed.
