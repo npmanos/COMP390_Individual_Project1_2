@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from dsv.reader import DSVDictReader
+from meteorite_filter.dsv.reader import DSVDictReader
 
 
 def main():
