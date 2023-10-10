@@ -13,5 +13,8 @@
     },
     "python.terminal.activateEnvInCurrentTerminal": true,
     "python.analysis.autoFormatStrings": true,
-    "python.analysis.inlayHints.callArgumentNames": "partial"
+    "python.analysis.inlayHints.callArgumentNames": "partial",
+    "python.analysis.extraPaths": [
+        "./meteorite_filter"
+    ]
 }
