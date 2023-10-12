@@ -4,6 +4,22 @@ from meteorite_filter.dsv.reader import DSVDictReader
 
 
 def main():
+    print(
+        '''\
+Meteorite Data Filter
+(c) October 2023 Nick Manos
+        
+Welcome! This application allows you to filter a provided meteorite data file.
+
+To begin, please type the filename, including its file extension and path if
+necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q":\
+'''
+    )
+    file_name = input('file> ')
+
+    if file_name in ('?q', '?Q'):
+        exit(0)
+
     # Create a type map to convert values to specified types
     type_map = {
         'id': int,
@@ -16,7 +32,7 @@ def main():
     }
 
     # Create a reader
-    reader = DSVDictReader('./data/meteorite_landings_data.txt', delimiter='\t', type_map=type_map)
+    reader = DSVDictReader(file_name, delimiter='\t', type_map=type_map)
 
     # Filter the data by mass
     heavy_meteorites = [row for row in reader if row['mass (g)'] is not None and row['mass (g)'] > 2_900_000]
