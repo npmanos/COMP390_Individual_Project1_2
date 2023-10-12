@@ -77,10 +77,10 @@ class Menu:
         print(self, end='')
         selection = input(self.prompt)
 
-        if selection in ('b', 'B') and self.back:
+        if selection in ('b', 'B', '?b', '?B') and self.back:
             return
 
-        if selection in ('q', 'Q') and self.quittable:
+        if selection in ('q', 'Q', '?q', '?Q') and self.quittable:
             exit(0)
 
         try:
