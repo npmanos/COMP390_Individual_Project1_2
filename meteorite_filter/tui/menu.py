@@ -21,9 +21,17 @@ class MenuItem:
 
 
 class Menu:
-    def __init__(self, items: list[MenuItem], preamble: str | None = None, prompt='> ', back=False, quittable=True) -> None:
+    def __init__(
+            self,
+            items: list[MenuItem],
+            preamble: str | None = None, prompt='> ',
+            default: int | None = None,
+            back=False,
+            quittable=True
+        ) -> None:
         self._items = items
         self._preamble = preamble
+        self._default = default
         self._prompt = prompt
         self.back = back
         self.quittable = quittable
@@ -41,6 +49,10 @@ class Menu:
     @property
     def prompt(self) -> str:
         return self._prompt
+    
+    @property
+    def default(self) -> int | None:
+        return self._default
 
 
     def __str__(self) -> str:
@@ -50,7 +62,7 @@ class Menu:
             output += self.preamble + '\n'
 
         for idx, item in enumerate(self.items, 1):
-            output += f'{idx} - {item.label}\n'
+            output += f'{idx} - {item.label}{" (default)" if (idx - 1) == self._default else ""}\n'
 
         if self.back:
             output += 'b - Return to the previous menu\n'
@@ -71,9 +83,11 @@ class Menu:
         if selection in ('q', 'Q') and self.quittable:
             exit(0)
 
-        menu_idx = 0
         try:
-            menu_idx = int(selection) - 1
+            if selection == '' and self._default is not None:
+                menu_idx = self._default
+            else:
+                menu_idx = int(selection) - 1
             menu_item = self.items[menu_idx]
         except (ValueError, IndexError):
             print('ERROR! Invalid option. Please enter the number or letter of your selection.', end='\n\n')
