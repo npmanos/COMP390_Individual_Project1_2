@@ -81,7 +81,7 @@ class Menu:
             self()
             return
 
-        if isinstance(menu_item, SubmenuItem):
+        if isinstance(menu_item, ReturnableMenuItem) and menu_item.go_back:
             print()
             menu_item()
             print()
@@ -91,10 +91,16 @@ class Menu:
             menu_item()
 
 
-class SubmenuItem(MenuItem):
+class ReturnableMenuItem(MenuItem):
+    def __init__(self, label: str, func_call, callback=None, go_back=True) -> None:
+        self.go_back = go_back
+        super().__init__(label, func_call, callback)
+
+
+class SubmenuItem(ReturnableMenuItem):
     def __init__(self, label: str, submenu: Menu) -> None:
         submenu.back = True
-        super().__init__(label, submenu)
+        super().__init__(label, submenu, go_back=True)
 
 
 if __name__ == '__main__':
