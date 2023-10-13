@@ -9,10 +9,12 @@ def main():
     print(WELCOME_MESSAGE)
     print('To begin, please type the filename, including its file extension and path if')
     print('necessary (ex: "file.txt"). To exit the application, type "?q"')
-    file_name = input('file> ')
+    file_name = input('> ')
 
     if file_name in ('?q', '?Q'):
         exit(0)
+
+    print()
 
     open_mode = ''
     def set_open_mode(mode: str):
@@ -22,15 +24,13 @@ def main():
     open_mode_menu = Menu(
         [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES],
         'What mode would you like to use to open the file?',
-        'mode> ',
-        0
+        default=0
     )
 
     open_format_menu = Menu(
         [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_FORMATS],
         'What format would you like to use to open the file?',
-        'format> ',
-        0
+        default=0
     )
 
     open_rw_menu = Menu(
@@ -39,8 +39,7 @@ def main():
             MenuItem('No', lambda: '', set_open_mode)
         ],
         'Would you like to open the file for reading and writing?',
-        'read/write> ',
-        1
+        default=1
     )
 
     open_mode_menu()
