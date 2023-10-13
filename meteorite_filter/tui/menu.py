@@ -70,7 +70,7 @@ class Menu:
         if self.quittable:
             output += 'q - Quit the application\n'
         
-        output += f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}'
+        output += f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}\n'
 
         return output
 
