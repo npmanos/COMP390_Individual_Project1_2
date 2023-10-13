@@ -1,11 +1,33 @@
-WELCOME_MESSAGE = '''\
-Meteorite Data Filter
-(c) October 2023 Nick Manos
+# WELCOME_MESSAGE = '''\
+# Meteorite Data Filter
+# (c) October 2023 Nick Manos
         
-Welcome! This application allows you to filter a provided meteorite data file.
+# Welcome! This application allows you to filter a provided meteorite data file.
 
-To begin, please type the filename, including its file extension and path if
-necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q":\
+# To begin, please type the filename, including its file extension and path if
+# necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q":\
+# '''
+
+WELCOME_MESSAGE = '''\
+  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+  ┃                          METEORITE DATA FILTER                           ┃
+  ┃                                                                          ┃
+  ┃ Welcome! This application allows you to filter meteorite landing data by ┃
+  ┃ mass and year.                                                           ┃
+  ┃                                                                          ┃
+  ┃ Instructions:                                                            ┃
+  ┃   You must provide a file containing the meteorite data in a specific    ┃
+  ┃   format. There must be 12 data fields seperated by a tab character. 3   ┃
+  ┃   of the 12 fields must be "name", "mass (g)", and "year".               ┃
+  ┃                                                                          ┃
+  ┃   On-screen instructions are provided to guide you through using the     ┃
+  ┃   program. When presented with multiple options, type the number of your ┃
+  ┃   choice followed by the enter key. If there is a default option, you    ┃
+  ┃   can just press the enter key to select it. You may also type "q" to    ┃
+  ┃   exit the application.                                                  ┃
+  ┃                                                                          ┃
+  ┃                                              (c) October 2023 Nick Manos ┃
+  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 '''
 
 OPEN_MODES = [

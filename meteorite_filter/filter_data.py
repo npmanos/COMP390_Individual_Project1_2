@@ -7,6 +7,8 @@ from constants import *
 
 def main():
     print(WELCOME_MESSAGE)
+    print('To begin, please type the filename, including its file extension and path if')
+    print('necessary. (Ex: "file.txt") To exit the application, type "?q"')
     file_name = input('file> ')
 
     if file_name in ('?q', '?Q'):
