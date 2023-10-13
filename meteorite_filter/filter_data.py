@@ -2,20 +2,11 @@
 
 from meteorite_filter.dsv.reader import DSVDictReader
 from meteorite_filter.tui.menu import Menu, MenuItem
+from meteorite_filter.constants import *
 
 
 def main():
-    print(
-        '''\
-Meteorite Data Filter
-(c) October 2023 Nick Manos
-        
-Welcome! This application allows you to filter a provided meteorite data file.
-
-To begin, please type the filename, including its file extension and path if
-necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q":\
-'''
-    )
+    print(WELCOME_MESSAGE)
     file_name = input('file> ')
 
     if file_name in ('?q', '?Q'):
@@ -27,22 +18,14 @@ necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q
         open_mode += mode
 
     open_mode_menu = Menu(
-        [
-            MenuItem('open for reading', lambda: 'r', set_open_mode),
-            MenuItem('open for writing, truncating the file first', lambda: 'w', set_open_mode),
-            MenuItem('open for exclusive creation, failing if the file already exists', lambda: 'x', set_open_mode),
-            MenuItem('open for writing, appending to the end of the file if it exists', lambda: 'a', set_open_mode)
-        ],
+        [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES],
         'What mode would you like to use to open the file?',
         'Type a letter or number to select your choice or press enter for the default\nmode> ',
         0
     )
 
     open_format_menu = Menu(
-        [
-            MenuItem('text mode', lambda: 't', set_open_mode),
-            MenuItem('binary mode', lambda: 'b', set_open_mode)
-        ],
+        [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_FORMATS],
         'What format would you like to use to open the file?',
         'Type a letter or number to select your choice or press enter for the default\nformat> ',
         0
@@ -62,7 +45,7 @@ necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q
     open_format_menu()
     open_rw_menu()
 
-    print(f'Opening file "{file_name}" using mode "{open_mode}"...')
+    print(f'Opening file "{file_name}" using {OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""} mode...')
 
     # Create a type map to convert values to specified types
     type_map = {
