@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from meteorite_filter.dsv.reader import DSVDictReader
+from meteorite_filter.tui.menu import Menu, MenuItem
 
 
 def main():
@@ -20,6 +21,49 @@ necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q
     if file_name in ('?q', '?Q'):
         exit(0)
 
+    open_mode = ''
+    def set_open_mode(mode: str):
+        nonlocal open_mode
+        open_mode += mode
+
+    open_mode_menu = Menu(
+        [
+            MenuItem('open for reading', lambda: 'r', set_open_mode),
+            MenuItem('open for writing, truncating the file first', lambda: 'w', set_open_mode),
+            MenuItem('open for exclusive creation, failing if the file already exists', lambda: 'x', set_open_mode),
+            MenuItem('open for writing, appending to the end of the file if it exists', lambda: 'a', set_open_mode)
+        ],
+        'What mode would you like to use to open the file?',
+        'Type a letter or number to select your choice or press enter for the default\nmode> ',
+        0
+    )
+
+    open_format_menu = Menu(
+        [
+            MenuItem('text mode', lambda: 't', set_open_mode),
+            MenuItem('binary mode', lambda: 'b', set_open_mode)
+        ],
+        'What format would you like to use to open the file?',
+        'Type a letter or number to select your choice or press enter for the default\nformat> ',
+        0
+    )
+
+    open_rw_menu = Menu(
+        [
+            MenuItem('Yes', lambda: '+', set_open_mode),
+            MenuItem('No', lambda: '', set_open_mode)
+        ],
+        'Would you like to open the file for reading and writing?',
+        'Type a letter or number to select your choice or press enter for the default\nread/write> ',
+        1
+    )
+
+    open_mode_menu()
+    open_format_menu()
+    open_rw_menu()
+
+    print(f'Opening file "{file_name}" using mode "{open_mode}"...')
+
     # Create a type map to convert values to specified types
     type_map = {
         'id': int,
@@ -32,7 +76,7 @@ necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q
     }
 
     # Create a reader
-    reader = DSVDictReader(file_name, delimiter='\t', type_map=type_map)
+    reader = DSVDictReader(file_name, delimiter='\t', type_map=type_map, mode=open_mode)
 
     # Filter the data by mass
     heavy_meteorites = [row for row in reader if row['mass (g)'] is not None and row['mass (g)'] > 2_900_000]
