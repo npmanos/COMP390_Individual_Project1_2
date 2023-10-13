@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from meteorite_filter.dsv.reader import DSVDictReader
-from meteorite_filter.tui.menu import Menu, MenuItem
-from meteorite_filter.constants import *
+from dsv.reader import DSVDictReader
+from tui.menu import Menu, MenuItem
+from constants import *
 
 
 def main():
