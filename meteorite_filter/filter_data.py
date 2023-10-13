@@ -20,14 +20,14 @@ def main():
     open_mode_menu = Menu(
         [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES],
         'What mode would you like to use to open the file?',
-        'Type a letter or number to select your choice or press enter for the default\nmode> ',
+        'mode> ',
         0
     )
 
     open_format_menu = Menu(
         [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_FORMATS],
         'What format would you like to use to open the file?',
-        'Type a letter or number to select your choice or press enter for the default\nformat> ',
+        'format> ',
         0
     )
 
@@ -37,7 +37,7 @@ def main():
             MenuItem('No', lambda: '', set_open_mode)
         ],
         'Would you like to open the file for reading and writing?',
-        'Type a letter or number to select your choice or press enter for the default\nread/write> ',
+        'read/write> ',
         1
     )
 

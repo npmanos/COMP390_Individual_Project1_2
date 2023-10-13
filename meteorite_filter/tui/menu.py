@@ -69,6 +69,8 @@ class Menu:
 
         if self.quittable:
             output += 'q - Quit the application\n'
+        
+        output += f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}'
 
         return output
 
@@ -132,7 +134,8 @@ if __name__ == '__main__':
             SubmenuItem('Submenu', submenu)
         ],
         'MAIN MENU - Select your option:',
-        'MENU> '
+        'MENU> ',
+        1
     )
 
     menu()
