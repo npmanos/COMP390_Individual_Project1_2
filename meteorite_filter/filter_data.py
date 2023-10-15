@@ -7,15 +7,34 @@ from tui.table import TablePrinter
 
 
 def main():
-    print(WELCOME_MESSAGE)
+    print(WELCOME_MESSAGE + '\n')
+
+    reader = open_file()
+
+    data = list(reader)
+
+    # Filter the data by mass
+    heavy_meteorites = filter_data(data, 'mass (g)', 2_900_001)
+
+    # Print the data
+    heavy_table = TablePrinter(('', 'NAME', 'MASS'), [(row_no, row['name'], row['mass (g)']) for row_no, row in enumerate(heavy_meteorites, 1)])
+    print(heavy_table)
+
+    # Filter the data by year
+    recent_meteorites = filter_data(data, 'year', '2013')
+
+    # Print the data
+    recent_table = TablePrinter(('', 'NAME', 'YEAR'), [(row_no, row['name'], row['year']) for row_no, row in enumerate(recent_meteorites, 1)])
+    print(recent_table)
+
+
+def open_file() -> DSVDictReader:
     print('To begin, please type the filename, including its file extension and path if')
     print('necessary (ex: "file.txt"). To exit the application, type "?q"')
     file_name = input('> ')
 
     if file_name in ('?q', '?Q'):
         exit(0)
-
-    print()
 
     open_mode = ''
     def set_open_mode(mode: str):
@@ -47,7 +66,7 @@ def main():
     open_format_menu()
     open_rw_menu()
 
-    print(f'Opening file "{file_name}" using {OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""} mode...')
+    print(f'Opening file "{file_name}" using {OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""} mode...\n')
 
     # Create a type map to convert values to specified types
     type_map = {
@@ -61,23 +80,13 @@ def main():
     }
 
     # Create a reader
-    reader = DSVDictReader(file_name, delimiter='\t', type_map=type_map, mode=open_mode)
-
-    data = [row for row in reader]
-
-    # Filter the data by mass
-    heavy_meteorites = filter_data(data, 'mass (g)', 2_900_001)
-
-    # Print the data
-    heavy_table = TablePrinter(('', 'NAME', 'MASS'), [(row_no, row['name'], row['mass (g)']) for row_no, row in enumerate(heavy_meteorites, 1)])
-    print(heavy_table)
-
-    # Filter the data by year
-    recent_meteorites = filter_data(data, 'year', '2013')
-
-    # Print the data
-    recent_table = TablePrinter(('', 'NAME', 'YEAR'), [(row_no, row['name'], row['year']) for row_no, row in enumerate(recent_meteorites, 1)])
-    print(recent_table)
+    try:
+        reader = DSVDictReader(file_name, delimiter='\t', type_map=type_map, mode=open_mode)
+    except:
+        print(f'ERROR! Could not open {file_name}. Please double check the file name is correct and the file contains the required format.')
+        reader = open_file()
+    
+    return reader
 
 
 def filter_data(data: list[dict], field: str, min_val: str | float = float('-inf'), max_val: str | float = float('inf')):
