@@ -2,9 +2,9 @@
 
 from constants import *
 from dsv.reader import DSVDictReader
-from tui.menu import Menu, MenuItem, ReturnableMenuItem, SubmenuItem
+from tui.menu import Menu, MenuItem, ReturnableMenuItem
 from tui.table import TablePrinter
-from tui.utils import quit_app, throw_error
+from tui.utils import *
 
 
 def main():
@@ -13,13 +13,6 @@ def main():
     reader = open_file()
 
     data = list(reader)
-
-    min_val = 0.0
-    max_val = 0.0
-    def set_min_max(set_min: float, set_max: float):
-        nonlocal min_val, max_val
-        min_val = set_min
-        max_val = set_max
 
     filter_menus = Menu(
         [
