@@ -37,7 +37,8 @@ class DSVReader:
 
     def __del__(self):
         """Close the DSV file when the object is deleted."""
-        self._file.close()
+        if hasattr(self, '_file'):
+            self._file.close()
 
     @property
     def line_num(self):

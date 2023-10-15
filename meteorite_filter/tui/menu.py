@@ -1,6 +1,9 @@
 
 
 
+from tui.utils import quit_app, throw_error
+
+
 class MenuItem:
     def __init__(self, label: str, func_call, callback=None) -> None:
         self._label = label
@@ -83,7 +86,7 @@ class Menu:
             return
 
         if selection in ('q', 'Q', '?q', '?Q') and self.quittable:
-            exit(0)
+            quit_app()
 
         try:
             if selection == '' and self._default is not None:
@@ -92,7 +95,8 @@ class Menu:
                 menu_idx = int(selection) - 1
             menu_item = self.items[menu_idx]
         except (ValueError, IndexError):
-            print('ERROR! Invalid option. Please enter the number or letter of your selection.', end='\n\n')
+            # print('ERROR! Invalid option. Please enter the number or letter of your selection.', end='\n\n')
+            throw_error('Invalid option. Please enter the number or letter of your selection.')
             input('Press any key to continue...\n')
             self()
             return

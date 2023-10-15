@@ -76,3 +76,26 @@ OPEN_SHORT_DESCS = {
     't': 'text',
     'b': 'binary'
 }
+
+TYPE_MAP = {
+    'id': int,
+    'mass (g)': float,
+    'year': int,
+    'reclat': float,
+    'reclong': float,
+    'States': int,
+    'Counties': int
+}
+
+FILTER_OPTIONS = {
+    'mass (g)': {
+            'menu_desc': 'Meteorite mass',
+            'input_desc': "the meteorite's mass in grams",
+            'header': 'MASS (g)'
+        },
+    'year': {
+            'menu_desc': 'Year meteorite fell',
+            'input_desc': 'the year the meteorite fell',
+            'header': 'YEAR'
+        }
+}
