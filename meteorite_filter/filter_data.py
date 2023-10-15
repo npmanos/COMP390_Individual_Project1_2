@@ -3,6 +3,7 @@
 from dsv.reader import DSVDictReader
 from tui.menu import Menu, MenuItem
 from constants import *
+from tui.table import TablePrinter
 
 
 def main():
@@ -68,34 +69,16 @@ def main():
     heavy_meteorites = filter_data(data, 'mass (g)', 2_900_001)
 
     # Print the data
-    print(f'     {"NAME".ljust(21)}{"MASS".ljust(8)}')
-    print('=' * 35)
-
-    for row_no, row in enumerate(heavy_meteorites, 1):
-        out_row = f'{row_no}'.ljust(5)
-        out_row += f'{row["name"]}'.ljust(21)
-        out_row += f'{int(row["mass (g)"])}'.rjust(8)
-
-        print(out_row)
-
-    print()
-
-    # Reset the reader
-    reader = DSVDictReader('./data/meteorite_landings_data.txt', delimiter='\t', type_map=type_map)
+    heavy_table = TablePrinter(('', 'NAME', 'MASS'), [(row_no, row['name'], row['mass (g)']) for row_no, row in enumerate(heavy_meteorites, 1)])
+    print(heavy_table)
 
     # Filter the data by year
     recent_meteorites = filter_data(data, 'year', '2013')
 
     # Print the data
-    print(f'     {"NAME".ljust(25)}{"YEAR".ljust(4)}')
-    print('=' * 34)
+    recent_table = TablePrinter(('', 'NAME', 'YEAR'), [(row_no, row['name'], row['year']) for row_no, row in enumerate(recent_meteorites, 1)])
+    print(recent_table)
 
-    for row_no, row in enumerate(recent_meteorites, 1):
-        out_row = f'{row_no}'.ljust(5)
-        out_row += f'{row["name"]}'.ljust(25)
-        out_row += f'{row["year"]}'.ljust(4)
-
-        print(out_row)
 
 def filter_data(data: list[dict], field: str, min_val: str | float = float('-inf'), max_val: str | float = float('inf')):
     if isinstance(min_val, str):
@@ -105,6 +88,7 @@ def filter_data(data: list[dict], field: str, min_val: str | float = float('-inf
         max_val = float(max_val)
 
     return sorted([row for row in data if (val := row[field]) is not None and val >= min_val and val < max_val], key=lambda x, k=field: x[k])
+
 
 if __name__ == "__main__":
     main()
