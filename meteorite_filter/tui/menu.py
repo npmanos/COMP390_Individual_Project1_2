@@ -121,25 +121,3 @@ class SubmenuItem(ReturnableMenuItem):
     def __init__(self, label: str, submenu: Menu) -> None:
         submenu.back = True
         super().__init__(label, submenu, go_back=True)
-
-
-if __name__ == '__main__':
-    submenu = Menu(
-        [
-            MenuItem('First submenu option', lambda: print('You selected the first submenu option')),
-            MenuItem('Second submenu option', lambda: print('You selected the second submenu option'))
-        ]
-    )
-
-    menu = Menu(
-        [
-            MenuItem('Menu item', lambda: print('This is the first menu item')),
-            MenuItem('Menu item w/ callback', lambda: input('Enter value to send to callback: '), lambda ret_val: print(f'Callback received value: {ret_val}')),
-            SubmenuItem('Submenu', submenu)
-        ],
-        'MAIN MENU - Select your option:',
-        'MENU> ',
-        1
-    )
-
-    menu()
