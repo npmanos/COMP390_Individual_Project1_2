@@ -62,11 +62,10 @@ def main():
     # Create a reader
     reader = DSVDictReader(file_name, delimiter='\t', type_map=type_map, mode=open_mode)
 
-    # Filter the data by mass
-    heavy_meteorites = [row for row in reader if row['mass (g)'] is not None and row['mass (g)'] > 2_900_000]
+    data = [row for row in reader]
 
-    # Sort the data
-    heavy_meteorites = sorted(heavy_meteorites, key=lambda x: x['mass (g)'])
+    # Filter the data by mass
+    heavy_meteorites = filter_data(data, 'mass (g)', 2_900_001)
 
     # Print the data
     print(f'     {"NAME".ljust(21)}{"MASS".ljust(8)}')
@@ -85,10 +84,7 @@ def main():
     reader = DSVDictReader('./data/meteorite_landings_data.txt', delimiter='\t', type_map=type_map)
 
     # Filter the data by year
-    recent_meteorites = [row for row in reader if row['year'] is not None and row['year'] >= 2013]
-
-    # Sort the data
-    recent_meteorites = sorted(recent_meteorites, key=lambda x: x['year'])
+    recent_meteorites = filter_data(data, 'year', '2013')
 
     # Print the data
     print(f'     {"NAME".ljust(25)}{"YEAR".ljust(4)}')
@@ -101,6 +97,14 @@ def main():
 
         print(out_row)
 
+def filter_data(data: list[dict], field: str, min_val: str | float = float('-inf'), max_val: str | float = float('inf')):
+    if isinstance(min_val, str):
+        min_val = float(min_val)
+
+    if isinstance(max_val, str):
+        max_val = float(max_val)
+
+    return sorted([row for row in data if (val := row[field]) is not None and val >= min_val and val < max_val], key=lambda x, k=field: x[k])
 
 if __name__ == "__main__":
     main()
