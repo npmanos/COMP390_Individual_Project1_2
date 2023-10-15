@@ -8,6 +8,7 @@ from tui.utils import *
 
 
 def main():
+    clear()
     print(WELCOME_MESSAGE + '\n')
 
     reader = open_file()
