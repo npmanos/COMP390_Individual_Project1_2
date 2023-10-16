@@ -17,7 +17,7 @@ class DSVReader:
     delimiters include commas (CSV) and tabs (TSV).
     """
 
-    def __init__(self, dsv_path: str, delimiter=',', newline: str | None=None):
+    def __init__(self, dsv_path: str, delimiter=',', newline: str | None=None, mode='r'):
         """Initialize a DSVReader object.
 
         Args:
@@ -26,7 +26,7 @@ class DSVReader:
             newline: The character(s) that separate lines. If None, the default
                 line separator for the operating system will be used.
         """
-        self._file = open(dsv_path, 'r', newline=newline)
+        self._file = open(dsv_path, mode, newline=newline)
         self.delimiter = delimiter
         self._line_num = 0
 
@@ -37,7 +37,8 @@ class DSVReader:
 
     def __del__(self):
         """Close the DSV file when the object is deleted."""
-        self._file.close()
+        if hasattr(self, '_file'):
+            self._file.close()
 
     @property
     def line_num(self):
@@ -68,7 +69,8 @@ class DSVDictReader(DSVReader):
             dsv_path: str,
             delimiter=',',
             fieldnames: list[str] | None=None,
-            type_map: dict | None=None):
+            type_map: dict | None=None,
+            mode: str = 'r'):
         """Initialize a DSVDictReader object.
 
         Args:
@@ -77,7 +79,7 @@ class DSVDictReader(DSVReader):
             fieldnames: The fieldnames of the DSV file. Defaults to first row of the file.
             type_map: An optional dictionary mapping fieldnames to functions for parsing the field values.
         """
-        super().__init__(dsv_path, delimiter)
+        super().__init__(dsv_path, delimiter, mode=mode)
 
         if fieldnames is None:
             self._fieldnames = super().__next__()
