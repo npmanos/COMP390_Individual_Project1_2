@@ -30,7 +30,7 @@ def main():
 
 
 def open_file() -> DSVDictReader:
-    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type "?q"', TERM_FG_CYAN))
+    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type "?q"', TERM_FG_CYAN)) # '?' is not a valid filename in Windows and is used in case a user has a file named 'q'. This remains an issue on Linux and macOS
     file_name = finput('> ', TERM_FG_GREEN)
 
     if file_name in ('?q', '?Q'):
