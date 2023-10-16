@@ -2,24 +2,18 @@
 
 from constants import *
 from dsv.reader import DSVDictReader
-from tui.menu import Menu, MenuItem, ReturnableMenuItem, SubmenuItem
+from tui.menu import Menu, MenuItem, ReturnableMenuItem
 from tui.table import TablePrinter
-from tui.utils import quit_app, throw_error
+from tui.utils import *
 
 
 def main():
+    clear()
     print(WELCOME_MESSAGE + '\n')
 
     reader = open_file()
 
     data = list(reader)
-
-    min_val = 0.0
-    max_val = 0.0
-    def set_min_max(set_min: float, set_max: float):
-        nonlocal min_val, max_val
-        min_val = set_min
-        max_val = set_max
 
     filter_menus = Menu(
         [
@@ -36,9 +30,8 @@ def main():
 
 
 def open_file() -> DSVDictReader:
-    print('To begin, please type the filename, including its file extension and path if')
-    print('necessary (ex: "file.txt"). To exit the application, type "?q"')
-    file_name = input('> ')
+    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type "?q"', TERM_FG_CYAN)) # '?' is not a valid filename in Windows and is used in case a user has a file named 'q'. This remains an issue on Linux and macOS
+    file_name = finput('> ', TERM_FG_GREEN)
 
     if file_name in ('?q', '?Q'):
         quit_app()
@@ -77,13 +70,13 @@ def open_file() -> DSVDictReader:
 
     open_rw_menu()
 
-    print(f'Opening file "{file_name}" using {OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""} mode...\n')
+    print(f'Opening file {term_format(term_format(file_name, TERM_FG_GREEN), TERM_ITALIC)} using {TERM_FG_GREEN[0]}{TERM_ITALIC[0]}{OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""}{TERM_FG_DEFAULT}{TERM_ITALIC[1]} mode...\n')
 
     # Create a reader
     try:
         reader = DSVDictReader(file_name, delimiter='\t', type_map=TYPE_MAP, mode=open_mode)
     except IOError:
-        throw_error(f'Could not open "{file_name}". Please double check the file name is correct and the file contains the required format.')
+        throw_error(f'Could not open {term_format(file_name, TERM_ITALIC)}. Please double check the file name is correct and the file contains the required format.')
         reader = open_file()
     
     
@@ -91,11 +84,16 @@ def open_file() -> DSVDictReader:
 
 
 def filter_range_input(desc: str) -> tuple[float, float]:
-    print('Enter a number for the upper and lower filter limits or type "q" to quit. You may leave one limit blank.')
-    min_input = input(f'Enter the LOWER limit (inclusive) for {desc}: ')
-    max_input = input(f'Enter the UPPER limit (inclusive) for {desc}: ')
+    print(term_format('Enter a number for the upper and lower filter limits or type "q" to quit.\nYou may leave one limit blank.', TERM_FG_CYAN))
 
-    if 'q' in (min_input, max_input):
+    min_input = finput(f'Enter the LOWER limit (inclusive) for {desc}: ', TERM_FG_GREEN)
+
+    if 'q' == min_input:
+        quit_app()
+
+    max_input = finput(f'Enter the UPPER limit (inclusive) for {desc}: ', TERM_FG_GREEN)
+
+    if 'q' == max_input:
         quit_app()
     
     if min_input == '' and max_input == '':
@@ -114,7 +112,7 @@ def filter_range_input(desc: str) -> tuple[float, float]:
 
 
 def filter_data(data: list[dict], field: str, min_val = float('-inf'), max_val = float('inf')) -> list[dict]:
-    return sorted([row for row in data if (val := row[field]) is not None and val >= min_val and val <= max_val], key=lambda x, k=field: x[k])
+    return sorted([row for row in data if (val := row[field]) is not None and val >= min_val and val <= max_val], key=lambda x, k=field: (x[k], x['name']))
 
 
 def print_table(data: list[dict], field: str):

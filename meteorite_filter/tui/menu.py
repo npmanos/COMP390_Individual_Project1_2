@@ -1,7 +1,4 @@
-
-
-
-from tui.utils import quit_app, throw_error
+from tui.utils import *
 
 
 class MenuItem:
@@ -62,7 +59,7 @@ class Menu:
         output = ''
 
         if self.preamble is not None:
-            output += self.preamble + '\n'
+            output += term_format(self.preamble, TERM_FG_CYAN) + '\n'
 
         for idx, item in enumerate(self.items, 1):
             output += f'{idx} - {item.label}{" (default)" if (idx - 1) == self._default else ""}\n'
@@ -73,14 +70,14 @@ class Menu:
         if self.quittable:
             output += 'q - Quit the application\n'
         
-        output += f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}\n'
+        output += term_format(f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}\n', TERM_FG_CYAN)
 
         return output
 
 
     def __call__(self):
         print(self, end='')
-        selection = input(self.prompt)
+        selection = finput(self.prompt, TERM_FG_GREEN)
 
         if selection in ('b', 'B', '?b', '?B') and self.back:
             return
@@ -95,9 +92,8 @@ class Menu:
                 menu_idx = int(selection) - 1
             menu_item = self.items[menu_idx]
         except (ValueError, IndexError):
-            # print('ERROR! Invalid option. Please enter the number or letter of your selection.', end='\n\n')
             throw_error('Invalid option. Please enter the number or letter of your selection.')
-            input('Press any key to continue...\n')
+            pause()
             self()
             return
 
@@ -121,25 +117,3 @@ class SubmenuItem(ReturnableMenuItem):
     def __init__(self, label: str, submenu: Menu) -> None:
         submenu.back = True
         super().__init__(label, submenu, go_back=True)
-
-
-if __name__ == '__main__':
-    submenu = Menu(
-        [
-            MenuItem('First submenu option', lambda: print('You selected the first submenu option')),
-            MenuItem('Second submenu option', lambda: print('You selected the second submenu option'))
-        ]
-    )
-
-    menu = Menu(
-        [
-            MenuItem('Menu item', lambda: print('This is the first menu item')),
-            MenuItem('Menu item w/ callback', lambda: input('Enter value to send to callback: '), lambda ret_val: print(f'Callback received value: {ret_val}')),
-            SubmenuItem('Submenu', submenu)
-        ],
-        'MAIN MENU - Select your option:',
-        'MENU> ',
-        1
-    )
-
-    menu()
