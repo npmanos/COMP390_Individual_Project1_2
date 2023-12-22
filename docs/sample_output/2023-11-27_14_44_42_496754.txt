@@ -1,0 +1,26 @@
+name	id	nametype	recclass	mass (g)	fall	year	reclat	reclong	GeoLocation	States	Counties
+Jilin	12171	Valid	H5	4000000	Fell	1976	44.05	126.16667	"(44.05, 126.16667)"		
+Sikhote-Alin	23593	Valid	"Iron, IIAB"	23000000	Fell	1947	46.16	134.65333	"(46.16, 134.65333)"		
+Al Haggounia 001	44857	Valid	Aubrite	3000000	Found	2006	27.5	-12.5	"(27.5, -12.5)"		
+Armanty	2335	Valid	"Iron, IIIE"	28000000	Found	1898	47	88	"(47.0, 88.0)"		
+Bacubirito	4919	Valid	"Iron, ungrouped"	22000000	Found	1863	26.2	-107.83333	"(26.2, -107.83333)"		
+Bendeg�	5015	Valid	"Iron, IC"	5360000	Found	1784	-10.11667	-39.2	"(-10.11667, -39.2)"		
+Brenham	5136	Valid	"Pallasite, PMG-an"	4300000	Found	1882	37.5825	-99.16361	"(37.5825, -99.16361)"	17	1238
+Campo del Cielo	5247	Valid	"Iron, IAB-MG"	50000000	Found	1575	-27.46667	-60.58333	"(-27.46667, -60.58333)"		
+Canyon Diablo	5257	Valid	"Iron, IAB-MG"	30000000	Found	1891	35.05	-111.03333	"(35.05, -111.03333)"	7	986
+Cape York	5262	Valid	"Iron, IIIAB"	58200000	Found	1818	76.13333	-64.93333	"(76.13333, -64.93333)"		
+Chupaderos	5363	Valid	"Iron, IIIAB"	24300000	Found	1852	27	-105.1	"(27.0, -105.1)"		
+Cranbourne	5463	Valid	"Iron, IAB-MG"	8600000	Found	1854	-38.1	145.3	"(-38.1, 145.3)"		
+Gibeon	10912	Valid	"Iron, IVA"	26000000	Found	1836	-25.5	18	"(-25.5, 18.0)"		
+Hoba	11890	Valid	"Iron, IVB"	60000000	Found	1920	-19.58333	17.91667	"(-19.58333, 17.91667)"		
+Mbosi	15456	Valid	"Iron, ungrouped"	16000000	Found	1930	-9.11667	33.06667	"(-9.11667, 33.06667)"		
+Morito	16745	Valid	"Iron, IIIAB"	10100000	Found	1600	27.05	-105.43333	"(27.05, -105.43333)"		
+Mundrabilla	16852	Valid	"Iron, IAB-ung"	24000000	Found	1911	-30.78333	127.55	"(-30.78333, 127.55)"		
+Nantan	16906	Valid	"Iron, IAB-MG"	9500000	Found	1958	25.1	107.7	"(25.1, 107.7)"		
+Santa Catharina	23162	Valid	"Iron, IAB-ung"	7000000	Found	1875	-26.21667	-48.6	"(-26.21667, -48.6)"		
+Toluca	24018	Valid	"Iron, IAB-sLL"	3000000	Found	1776	19.56667	-99.56667	"(19.56667, -99.56667)"		
+Vaca Muerta	24142	Valid	Mesosiderite-A1	3828000	Found	1861	-25.75	-70.5	"(-25.75, -70.5)"		
+Willamette	24269	Valid	"Iron, IIIAB"	15500000	Found	1902	45.36667	-122.58333	"(45.36667, -122.58333)"	12	2317
+Xifu	54608	Valid	"Iron, IAB complex"	3000000	Found	2004	36.3	120.48333	"(36.3, 120.48333)"		
+Yingde	30363	Valid	"Iron, IVA"	3000000	Found	1964	24.2	113.4	"(24.2, 113.4)"		
+Youndegin	30374	Valid	"Iron, IAB-MG"	3800000	Found	1884	-32.1	117.71667	"(-32.1, 117.71667)"		
