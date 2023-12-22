@@ -27,10 +27,12 @@ class DSVWriter:
         output = ''
         for idx, field in enumerate(row, 1):
             if field is not None:
-                output += str(field)                
-            
+                output += str(field)
+
             if idx < len(row):
                 output += self.delimiter
+
+        output += '\n'
 
         return output
 
