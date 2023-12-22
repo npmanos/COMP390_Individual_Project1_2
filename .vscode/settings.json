@@ -16,5 +16,6 @@
     "python.analysis.inlayHints.callArgumentNames": "partial",
     "python.analysis.extraPaths": [
         "./meteorite_filter"
-    ]
+    ],
+    "editor.wordWrap": "off"
 }
