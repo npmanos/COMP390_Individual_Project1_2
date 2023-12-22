@@ -26,7 +26,9 @@ class DSVWriter:
     def _format_row(self, row: list) -> str:
         output = ''
         for idx, field in enumerate(row, 1):
-            output += str(field)
+            if field is not None:
+                output += str(field)                
+            
             if idx < len(row):
                 output += self.delimiter
 
