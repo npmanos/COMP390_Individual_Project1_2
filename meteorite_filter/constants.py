@@ -1,12 +1,5 @@
-# WELCOME_MESSAGE = '''\
-# Meteorite Data Filter
-# (c) October 2023 Nick Manos
-        
-# Welcome! This application allows you to filter a provided meteorite data file.
+from output import TerminalOutput, TextFileOutput
 
-# To begin, please type the filename, including its file extension and path if
-# necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q":\
-# '''
 
 WELCOME_MESSAGE = '''\
   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -89,13 +82,24 @@ TYPE_MAP = {
 
 FILTER_OPTIONS = {
     'mass (g)': {
-            'menu_desc': 'Meteorite mass',
-            'input_desc': "the meteorite's mass in grams",
-            'header': 'MASS (g)'
-        },
+        'menu_desc': 'Meteorite mass',
+        'input_desc': "the meteorite's mass in grams",
+        'header': 'MASS (g)'
+    },
     'year': {
-            'menu_desc': 'Year meteorite fell',
-            'input_desc': 'the year the meteorite fell',
-            'header': 'YEAR'
-        }
+        'menu_desc': 'Year meteorite fell',
+        'input_desc': 'the year the meteorite fell',
+        'header': 'YEAR'
+    }
+}
+
+OUTPUT_OPTIONS = {
+    'terminal': {
+        'menu_desc': 'Display on screen',
+        'func': TerminalOutput.output
+    },
+    'text': {
+        'menu_desc': 'Save to a text (.txt) file',
+        'func': TextFileOutput.output
+    }
 }
