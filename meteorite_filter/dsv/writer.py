@@ -33,3 +33,31 @@ class DSVWriter:
                 output += self.delimiter
 
         return output
+
+
+class DSVDictWriter(DSVWriter):
+    def __init__(self, dsv_path: str, fieldnames: list[str], delimiter: str = ',', mode: str = 'w') -> None:
+        super().__init__(dsv_path, delimiter, mode)
+        self._fieldnames = fieldnames
+
+
+    @property
+    def fieldnames(self) -> list[str]:
+        return self._fieldnames
+
+
+    def writeheader(self) -> int:
+        return super().writerow(self.fieldnames)
+
+
+    def writerow(self, row: dict) -> int:
+        if len(row) != len(self.fieldnames):
+            raise ValueError
+
+        ordered_row = [row[field] for field in self.fieldnames]
+        return super().writerow(ordered_row)
+
+
+    def writerows(self, rows: list[dict]) -> None:
+        for row in rows:
+            self.writerow(row)
