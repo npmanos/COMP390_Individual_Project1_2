@@ -35,6 +35,13 @@ class DSVWriter:
         return output
 
 
+    def __del__(self):
+        """Close the DSV file when the object is deleted."""
+
+        if hasattr(self, '_file'):
+            self._file.close()
+
+
 class DSVDictWriter(DSVWriter):
     def __init__(self, dsv_path: str, fieldnames: list[str], delimiter: str = ',', mode: str = 'w') -> None:
         super().__init__(dsv_path, delimiter, mode)
