@@ -72,6 +72,10 @@ class DSVDictWriter(DSVWriter):
 
 
     def writerows(self, rows: list[dict]) -> None:
+        for row in rows:
+            if len(row) != len(self.fieldnames):
+                raise ValueError
+
         ordered_rows = [self._dict_to_row_list(row) for row in rows]
         super().writerows(ordered_rows)
 
