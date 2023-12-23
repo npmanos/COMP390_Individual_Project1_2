@@ -1,7 +1,7 @@
 from io import StringIO
 from pytest import fixture, MonkeyPatch, CaptureFixture, mark
+import pytest
 from meteorite_filter.filter_data import *
-from meteorite_filter.output import TerminalOutput, TextFileOutput
 
 
 @fixture
@@ -67,14 +67,13 @@ class TestSelectOutput:
 2 - Save to a text (.txt) file
 q - Quit the application
 \x1B[36mType a letter or number to select your choice
-\x1B[39m> \x1B[32m\x1B[39m
-'''
+\x1B[39m> \x1B[32m\x1B[39m'''
 
     @mark.parametrize('sim_input,field,output_option', [('1\n', 'mass (g)', 'TerminalOutput'), ('1\n', 'year', 'TerminalOutput'), ('2\n', 'mass (g)', 'TextFileOutput'), ('2\n', 'year', 'TextFileOutput')])
     def test_select_valid_output(self, sim_input: str, field: str, output_option: str, mock_outputs, write_stdin, capfd: CaptureFixture[str]):
         write_stdin(sim_input)
         select_output(self.data, field)
-        assert capfd.readouterr().out == f'{self.expected_menu}{output_option} selected. data: {self.data}, field: {field}\n'
+        assert capfd.readouterr().out == f'{self.expected_menu}\n{output_option} selected. data: {self.data}, field: {field}\n'
 
 
     @mark.parametrize('field', [('mass (g)'), ('year')])
@@ -94,3 +93,16 @@ q - Quit the application
         with pytest.raises(SystemExit):
             write_stdin('?Q')
             select_output(self.data, field)
+
+
+    @mark.parametrize('bad_input', ['4', '0', '-1', 'show', 'SHOW', '1 Show', '!', '?', 'b', 'B'])
+    def test_bad_input(self, bad_input: str, mock_outputs, monkeypatch: MonkeyPatch, write_stdin, capfd: CaptureFixture[str]):
+        write_stdin(f'{bad_input}\n\n1\n')
+        expected_error = '''\x1B[1m\x1B[31m
+ERROR! Invalid option. Please enter the number or letter of your selection.
+\x1B[39m\x1B[22m
+\x1B[1mPress any key to continue...
+\x1B[22m'''
+
+        select_output(self.data, 'mass (g)')
+        assert capfd.readouterr().out == f'{self.expected_menu}{expected_error}{self.expected_menu}\nTerminalOutput selected. data: {self.data}, field: mass (g)\n'
