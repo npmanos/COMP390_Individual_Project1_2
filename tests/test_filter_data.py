@@ -76,3 +76,21 @@ q - Quit the application
         select_output(self.data, field)
         assert capfd.readouterr().out == f'{self.expected_menu}{output_option} selected. data: {self.data}, field: {field}\n'
 
+
+    @mark.parametrize('field', [('mass (g)'), ('year')])
+    def test_quit(self, field: str, mock_outputs, write_stdin, capfd: CaptureFixture[str]):
+        with pytest.raises(SystemExit):
+            write_stdin('q')
+            select_output(self.data, field)
+
+        with pytest.raises(SystemExit):
+            write_stdin('Q')
+            select_output(self.data, field)
+
+        with pytest.raises(SystemExit):
+            write_stdin('?q')
+            select_output(self.data, field)
+
+        with pytest.raises(SystemExit):
+            write_stdin('?Q')
+            select_output(self.data, field)
