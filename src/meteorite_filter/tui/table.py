@@ -21,10 +21,10 @@ class TablePrinter:
         
         str_repr = ''
         if self.title is not None:
-            str_repr += f"{self.title:^{len(divider)}}" # Print centered title
+            str_repr += f"{self.title:^{len(divider)}}\n" # Print centered title
 
-        str_repr += self._formatRow(self._header)
-        str_repr += divider
+        str_repr += self._formatRow(self._header) + '\n'
+        str_repr += divider + '\n'
         
         for entry in self._entries:
             str_repr += self._formatRow(entry) + '\n'
