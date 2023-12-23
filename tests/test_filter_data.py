@@ -4,28 +4,38 @@ from meteorite_filter.filter_data import *
 from meteorite_filter.output import TerminalOutput, TextFileOutput
 
 
-# class MockTerminalOutput(OutputInterface):
-#     @staticmethod
-#     def output(data: list[dict], field: str):
-#         return f'TerminalOutput selected. data: {data}, field: {field}'
-
 @fixture
-def mock_term_output(monkeypatch):
-
+def mock_term_output(monkeypatch: MonkeyPatch):
     @staticmethod
     def mock_output(data: list[dict], field: str):
         print(f'TerminalOutput selected. data: {data}, field: {field}')
 
     monkeypatch.setitem(OUTPUT_OPTIONS['terminal'], "func", mock_output)
 
-@fixture
-def mock_text_output(monkeypatch):
 
+@fixture
+def mock_text_output(monkeypatch: MonkeyPatch):
     @staticmethod
     def mock_output(data: list[dict], field: str):
         print(f'TextFileOutput selected. data: {data}, field: {field}')
-    
-    monkeypatch.setattr(OUTPUT_OPTIONS['text'], "func", mock_output)
+
+    monkeypatch.setitem(OUTPUT_OPTIONS['text'], "func", mock_output)
+
+
+@fixture
+def write_stdin(monkeypatch: MonkeyPatch):
+    stdin_sim = StringIO()
+
+    def _make_stdin_stringio(mock_input: str):
+        stdin_sim = StringIO(mock_input)
+        monkeypatch.setattr('sys.stdin', stdin_sim)
+        return stdin_sim
+
+    yield _make_stdin_stringio
+
+    monkeypatch.undo()
+    stdin_sim.close()
+
 
 class TestSelectOutput:
     data = [
@@ -65,13 +75,20 @@ q - Quit the application
 '''
 
 
-    def test_select_terminal(self, mock_term_output, monkeypatch: MonkeyPatch, capfd: CaptureFixture[str]):
-        sim_input = StringIO('1\n')
-        monkeypatch.setattr('sys.stdin', sim_input)
+    def test_select_terminal(self, mock_term_output, write_stdin, capfd: CaptureFixture[str]):
+        write_stdin('1\n')
 
         field = 'mass (g)'
         select_output(self.data, field)
 
-        output = capfd.readouterr().out
+        assert capfd.readouterr().out == f'{self.expected_menu}TerminalOutput selected. data: {self.data}, field: {field}\n'
 
-        assert output == f'{self.expected_menu}TerminalOutput selected. data: {self.data}, field: {field}\n'
+
+    def test_select_text(self, mock_text_output, write_stdin, capfd: CaptureFixture[str]):
+        write_stdin('2\n')
+
+        field = 'year'
+        select_output(self.data, field)
+        
+        assert capfd.readouterr().out == f'{self.expected_menu}TextFileOutput selected. data: {self.data}, field: {field}\n'
+
