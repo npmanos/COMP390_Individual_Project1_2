@@ -19,12 +19,13 @@ class TablePrinter:
         self._calcColumnSize()
         divider = ('=' * self._colMargin).join(['=' * size for size in self._colSize])
         
-        if self.title is not None:
-            print(f"{self.title:^{len(divider)}}") # Print centered title
-
-        print(self._formatRow(self._header))
-        print(divider)
         str_repr = ''
+        if self.title is not None:
+            str_repr += f"{self.title:^{len(divider)}}\n" # Print centered title
+
+        str_repr += self._formatRow(self._header) + '\n'
+        str_repr += divider + '\n'
+        
         for entry in self._entries:
             str_repr += self._formatRow(entry) + '\n'
 

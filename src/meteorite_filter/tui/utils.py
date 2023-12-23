@@ -59,4 +59,4 @@ def finput(prompt: str, format: tuple[str, str]) -> str:
 
 def quit_app():
     print('\nQuitting applicaiton... Goodbye!')
-    exit(0)
+    raise SystemExit(0)

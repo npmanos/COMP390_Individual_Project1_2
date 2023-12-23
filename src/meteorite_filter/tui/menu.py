@@ -1,4 +1,4 @@
-from tui.utils import *
+from meteorite_filter.tui.utils import *
 
 
 class MenuItem:
@@ -69,7 +69,7 @@ class Menu:
 
         if self.quittable:
             output += 'q - Quit the application\n'
-        
+
         output += term_format(f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}\n', TERM_FG_CYAN)
 
         return output
@@ -89,11 +89,14 @@ class Menu:
             if selection == '' and self._default is not None:
                 menu_idx = self._default
             else:
-                menu_idx = int(selection) - 1
+                menu_idx = int(selection) - 1 if int(selection) - 1 >= 0 else None
+            
+            if menu_idx is None:
+                raise ValueError
+
             menu_item = self.items[menu_idx]
         except (ValueError, IndexError):
             throw_error('Invalid option. Please enter the number or letter of your selection.')
-            pause()
             self()
             return
 

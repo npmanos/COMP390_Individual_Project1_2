@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
-from constants import *
-from dsv.reader import DSVDictReader
-from tui.menu import Menu, MenuItem, ReturnableMenuItem
-from tui.table import TablePrinter
-from tui.utils import *
+from meteorite_filter.constants import *
+from meteorite_filter.dsv.reader import DSVDictReader
+from meteorite_filter.tui.menu import Menu, MenuItem, ReturnableMenuItem
+from meteorite_filter.tui.utils import *
 
 
 def main():
@@ -18,10 +17,10 @@ def main():
     filter_menus = Menu(
         [
             ReturnableMenuItem(
-                v['menu_desc'],
-                lambda desc=v['input_desc']: filter_range_input(desc),
-                lambda range, data=data, field=k: print_table(filter_data(data, field, *range), field)
-            ) for k, v in FILTER_OPTIONS.items()
+                prop['menu_desc'],
+                lambda desc=prop['input_desc']: filter_range_input(desc),
+                lambda range, data=data, field=option: select_output(filter_data(data, field, *range), field)
+            ) for option, prop in FILTER_OPTIONS.items()
         ],
         'Which field would you like to use to filter the data?'
     )
@@ -115,10 +114,16 @@ def filter_data(data: list[dict], field: str, min_val = float('-inf'), max_val =
     return sorted([row for row in data if (val := row[field]) is not None and val >= min_val and val <= max_val], key=lambda x, k=field: (x[k], x['name']))
 
 
-def print_table(data: list[dict], field: str):
-    heavy_table = TablePrinter(('', 'NAME', FILTER_OPTIONS[field]['header']), [(row_no, row['name'], row[field]) for row_no, row in enumerate(data, 1)])
-    print()
-    print(heavy_table)
+def select_output(data: list[dict], field):
+    output_menus = Menu([MenuItem(
+            prop['menu_desc'],
+            lambda output_func=prop['func'], data=data, field=field: output_func(data, field)
+        ) for option, prop in OUTPUT_OPTIONS.items()],
+        'How would you like to output the filtered results?'
+    )
+
+    output_menus()
+
 
 if __name__ == "__main__":
     main()
