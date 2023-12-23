@@ -5,7 +5,7 @@ from meteorite_filter.output import TerminalOutput, TextFileOutput
 from meteorite_filter.tui.table import TablePrinter
 
 class TestTerminalOutput:
-    def test_output(self, capsys):
+    def test_output(self, capfd):
         data = [
             {'name': 'Meteorite 1', 'mass (g)': '-1.0'},
             {'name': 'Meteorite 2', 'mass (g)': '0.0'},
@@ -15,7 +15,7 @@ class TestTerminalOutput:
 
         TerminalOutput.output(data, field)
 
-        captured = capsys.readouterr()
+        captured = capfd.readouterr()
         expected_output = '\n' + str(TablePrinter(('', 'NAME', 'MASS (g)'), [(1, 'Meteorite 1', '-1.0'), (2, 'Meteorite 2', '0.0'), (3, 'Meteorite 3', '1.0')])) + '\n'
         assert captured.out == expected_output
 
@@ -28,7 +28,7 @@ class TestTerminalOutput:
 
         TerminalOutput.output(data, field)
 
-        captured = capsys.readouterr()
+        captured = capfd.readouterr()
         expected_output = '\n' + str(TablePrinter(('', 'NAME', 'YEAR'), [(1, 'Meteorite 1', '1999'), (2, 'Meteorite 2', '2010'), (3, 'Meteorite 3', '2023')])) + '\n'
         assert captured.out == expected_output
 
