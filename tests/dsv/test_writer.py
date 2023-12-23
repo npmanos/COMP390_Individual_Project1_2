@@ -131,6 +131,24 @@ even more text\t0\t\t0.0
         writer.writerow(self.rows[3])
         assert path.read_text() == 'this is text\t47\t\t7.4\nthis is also text\t-74\t\t-4.7\n\t\t\t\neven more text\t0\t\t0.0\n'
 
+        too_few_fields = {
+            'string': 'foo',
+            'int': 47,
+            'none': None
+        }
+        with pytest.raises(ValueError):
+            writer.writerow(too_few_fields)
+        
+        too_many_fields = {
+            'string': 'bar',
+            'int': 74,
+            'none': None,
+            'float': 4.7,
+            'extra': True
+        }
+        with pytest.raises(ValueError):
+            writer.writerow(too_many_fields)
+
 
     def test_writerows(self, tmp_path):
         path: Path = tmp_path / 'TestDSVDictWriter'
@@ -141,6 +159,26 @@ even more text\t0\t\t0.0
 
         writer.writerows(self.rows)
         assert path.read_text() == self.all_rows
+
+        too_few_fields = self.rows + [{
+            'string': 'foo',
+            'int': 47,
+            'none': None
+        }]
+
+        with pytest.raises(ValueError):
+            writer.writerows(too_few_fields)
+
+        too_many_fields = self.rows + [{
+            'string': 'bar',
+            'int': 74,
+            'none': None,
+            'float': 4.7,
+            'extra': True
+        }]
+
+        with pytest.raises(ValueError):
+            writer.writerows(too_many_fields)
 
     def test_full(self, tmp_path):
         path: Path = tmp_path / 'TestDSVDictWriter'
