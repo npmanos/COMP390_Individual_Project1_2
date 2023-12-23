@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 
-from constants import *
-from datetime import datetime as dt
-from dsv.reader import DSVDictReader
-from dsv.writer import DSVDictWriter
-from tui.menu import Menu, MenuItem, ReturnableMenuItem
-from tui.table import TablePrinter
-from tui.utils import *
+from meteorite_filter.constants import *
+from meteorite_filter.dsv.reader import DSVDictReader
+from meteorite_filter.tui.menu import Menu, MenuItem, ReturnableMenuItem
+from meteorite_filter.tui.utils import *
 
 
 def main():
     clear()
     print(WELCOME_MESSAGE + '\n')
+    print(FILTER_OPTIONS)
 
     reader = open_file()
 

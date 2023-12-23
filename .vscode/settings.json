@@ -1,21 +1,26 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.autoComplete.extraPaths": ["./meteorite_filter"],
+    // "python.autoComplete.extraPaths": ["./src"],
     "terminal.integrated.env.osx": {
-        "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/meteorite_filter",
+        "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/src",
     },
     "terminal.integrated.env.linux": {
-        "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/meteorite_filter",
+        "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/src",
     },
     "terminal.integrated.env.windows": {
-        "PYTHONPATH": "${env:PYTHONPATH};${workspaceFolder}/meteorite_filter",
+        "PYTHONPATH": "${env:PYTHONPATH};${workspaceFolder}/src",
     },
     "python.terminal.activateEnvInCurrentTerminal": true,
     "python.analysis.autoFormatStrings": true,
     "python.analysis.inlayHints.callArgumentNames": "partial",
     "python.analysis.extraPaths": [
-        "./meteorite_filter"
+        "${workspaceFolder}/src",
+        "./src"
     ],
-    "editor.wordWrap": "off"
+    "editor.wordWrap": "off",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.inlayHints.pytestParameters": true,
+    "python.createEnvironment.trigger": "prompt",
+    "python.testing.pytestEnabled": true
 }

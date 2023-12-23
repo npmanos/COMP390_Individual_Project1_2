@@ -1,4 +1,4 @@
-from output import TerminalOutput, TextFileOutput
+from meteorite_filter.output import TerminalOutput, TextFileOutput
 
 
 WELCOME_MESSAGE = '''\

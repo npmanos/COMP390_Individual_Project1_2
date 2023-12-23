@@ -1,4 +1,4 @@
-from tui.utils import *
+from meteorite_filter.tui.utils import *
 
 
 class MenuItem:

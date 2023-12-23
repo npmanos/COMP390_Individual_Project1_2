@@ -1,6 +1,6 @@
 from datetime import datetime as dt
-from dsv.writer import DSVDictWriter
-from tui.table import TablePrinter
+from meteorite_filter.dsv.writer import DSVDictWriter
+from meteorite_filter.tui.table import TablePrinter
 
 class OutputInterface:
     @staticmethod
@@ -11,7 +11,7 @@ class OutputInterface:
 class TerminalOutput(OutputInterface):
     @staticmethod
     def output(data: list[dict], field: str):
-        from constants import FILTER_OPTIONS
+        from meteorite_filter.constants import FILTER_OPTIONS
         table = TablePrinter(('', 'NAME', FILTER_OPTIONS[field]['header']), [(row_no, row['name'], row[field]) for row_no, row in enumerate(data, 1)])
         print()
         print(table)
