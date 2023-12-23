@@ -48,11 +48,11 @@ class TestTextFileOutput:
         path.mkdir()
         path = path / 'test_output.txt'
 
-        class patched_datetime(datetime):
+        class PatchedDatetime(datetime):
             def strftime(self, format: str) -> str:
                 return str(path)
         
-        monkeypatch.setattr('meteorite_filter.output.dt', patched_datetime)
+        monkeypatch.setattr('meteorite_filter.output.dt', PatchedDatetime)
 
         TextFileOutput.output(data, field)
 
