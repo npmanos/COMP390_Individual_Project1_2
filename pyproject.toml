@@ -29,6 +29,7 @@ classifiers = [
   # Specify the Python versions you support here.
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 
   # Don't upload to PyPI
   "Private :: Do Not Upload"
@@ -42,3 +43,4 @@ Issues = "https://github.com/npmanos/COMP390_Individual_Project1_2/issues"
 addopts = [
     "--import-mode=importlib",
 ]
+pythonpath = "src"

@@ -15,12 +15,16 @@ class DSVWriter:
 
 
     def writerow(self, row: list) -> int:
-        return self._file.write(self._format_row(row))
+        ret_val = self._file.write(self._format_row(row))
+        self._file.flush()
+        return ret_val
 
 
     def writerows(self, rows: list[list]):
         for row in rows:
-            self.writerow(row)
+            self._file.write(self._format_row(row))
+        
+        self._file.flush()
 
 
     def _format_row(self, row: list) -> str:
@@ -68,5 +72,8 @@ class DSVDictWriter(DSVWriter):
 
 
     def writerows(self, rows: list[dict]) -> None:
-        for row in rows:
-            self.writerow(row)
+        ordered_rows = [self._dict_to_row_list(row) for row in rows]
+        super().writerows(ordered_rows)
+
+    def _dict_to_row_list(self, row: dict):
+        return [row[field] for field in self.fieldnames]
