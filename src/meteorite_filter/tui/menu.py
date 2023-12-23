@@ -89,11 +89,14 @@ class Menu:
             if selection == '' and self._default is not None:
                 menu_idx = self._default
             else:
-                menu_idx = int(selection) - 1
+                menu_idx = int(selection) - 1 if int(selection) - 1 >= 0 else None
+            
+            if menu_idx is None:
+                raise ValueError
+
             menu_item = self.items[menu_idx]
         except (ValueError, IndexError):
             throw_error('Invalid option. Please enter the number or letter of your selection.')
-            pause()
             self()
             return
 
