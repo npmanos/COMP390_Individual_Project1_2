@@ -9,7 +9,6 @@ from meteorite_filter.tui.utils import *
 def main():
     clear()
     print(WELCOME_MESSAGE + '\n')
-    print(FILTER_OPTIONS)
 
     reader = open_file()
 
