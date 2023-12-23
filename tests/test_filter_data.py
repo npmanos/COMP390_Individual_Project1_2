@@ -1,25 +1,21 @@
 from io import StringIO
-from pytest import fixture, MonkeyPatch, CaptureFixture
+from pytest import fixture, MonkeyPatch, CaptureFixture, mark
 from meteorite_filter.filter_data import *
 from meteorite_filter.output import TerminalOutput, TextFileOutput
 
 
 @fixture
-def mock_term_output(monkeypatch: MonkeyPatch):
+def mock_outputs(monkeypatch: MonkeyPatch):
     @staticmethod
-    def mock_output(data: list[dict], field: str):
+    def mock_term_output(data: list[dict], field: str):
         print(f'TerminalOutput selected. data: {data}, field: {field}')
 
-    monkeypatch.setitem(OUTPUT_OPTIONS['terminal'], "func", mock_output)
-
-
-@fixture
-def mock_text_output(monkeypatch: MonkeyPatch):
     @staticmethod
-    def mock_output(data: list[dict], field: str):
+    def mock_text_output(data: list[dict], field: str):
         print(f'TextFileOutput selected. data: {data}, field: {field}')
 
-    monkeypatch.setitem(OUTPUT_OPTIONS['text'], "func", mock_output)
+    monkeypatch.setitem(OUTPUT_OPTIONS['terminal'], "func", mock_term_output)
+    monkeypatch.setitem(OUTPUT_OPTIONS['text'], "func", mock_text_output)
 
 
 @fixture
@@ -74,21 +70,9 @@ q - Quit the application
 \x1B[39m> \x1B[32m\x1B[39m
 '''
 
-
-    def test_select_terminal(self, mock_term_output, write_stdin, capfd: CaptureFixture[str]):
-        write_stdin('1\n')
-
-        field = 'mass (g)'
+    @mark.parametrize('sim_input,field,output_option', [('1\n', 'mass (g)', 'TerminalOutput'), ('1\n', 'year', 'TerminalOutput'), ('2\n', 'mass (g)', 'TextFileOutput'), ('2\n', 'year', 'TextFileOutput')])
+    def test_select_valid_output(self, sim_input: str, field: str, output_option: str, mock_outputs, write_stdin, capfd: CaptureFixture[str]):
+        write_stdin(sim_input)
         select_output(self.data, field)
-
-        assert capfd.readouterr().out == f'{self.expected_menu}TerminalOutput selected. data: {self.data}, field: {field}\n'
-
-
-    def test_select_text(self, mock_text_output, write_stdin, capfd: CaptureFixture[str]):
-        write_stdin('2\n')
-
-        field = 'year'
-        select_output(self.data, field)
-        
-        assert capfd.readouterr().out == f'{self.expected_menu}TextFileOutput selected. data: {self.data}, field: {field}\n'
+        assert capfd.readouterr().out == f'{self.expected_menu}{output_option} selected. data: {self.data}, field: {field}\n'
 
