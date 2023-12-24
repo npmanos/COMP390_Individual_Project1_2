@@ -1,0 +1,6 @@
+iniconfig==2.0.0
+-e git+ssh://git@github.com/npmanos/COMP390_Individual_Project1_2.git@3e4e1e17bce0e210ab395655ccd86f47fd8da4b3#egg=meteorite_filter
+packaging==23.2
+pluggy==1.3.0
+pytest==7.4.3
+xlwt==1.3.0
