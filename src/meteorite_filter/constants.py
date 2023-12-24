@@ -1,4 +1,4 @@
-from meteorite_filter.output import TerminalOutput, TextFileOutput
+from meteorite_filter.output import ExcelFileOutput, TerminalOutput, TextFileOutput
 
 
 WELCOME_MESSAGE = '''\
@@ -101,5 +101,9 @@ OUTPUT_OPTIONS = {
     'text': {
         'menu_desc': 'Save to a text (.txt) file',
         'func': TextFileOutput.output
+    },
+    'excel': {
+        'menu_desc': 'Save to an Excel (.xls) file',
+        'func': ExcelFileOutput.output
     }
 }

@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from meteorite_filter.dsv.excel import ExcelDictWriter
 from meteorite_filter.dsv.writer import DSVDictWriter
 from meteorite_filter.tui.table import TablePrinter
 
@@ -20,9 +21,25 @@ class TerminalOutput(OutputInterface):
 class TextFileOutput(OutputInterface):
     @staticmethod
     def output(data: list[dict], field: str):
-        path = dt.now().strftime('%Y-%m-%d_%H_%M_%f.txt')
+        path = _gen_filename('txt')
         fieldnames = list(data[0].keys())
 
         writer = DSVDictWriter(path, fieldnames, delimiter='\t')
         writer.writeheader()
         writer.writerows(data)
+
+
+class ExcelFileOutput(OutputInterface):
+    @staticmethod
+    def output(data: list[dict], field: str):
+        path = _gen_filename('xls')
+        fieldnames = list(data[0].keys())
+
+        writer = ExcelDictWriter(path, fieldnames)
+        writer.writeheader()
+        writer.writerows(data)
+        writer.save()
+
+
+def _gen_filename(ext: str) -> str:
+    return dt.now().strftime(f'%Y-%m-%d_%H_%M_%f.{ext}')

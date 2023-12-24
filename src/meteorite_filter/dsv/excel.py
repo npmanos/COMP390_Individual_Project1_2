@@ -22,8 +22,6 @@ class ExcelDictWriter:
 
 
     def writeheader(self) -> None:
-        # cell = self._cell
-
         self._fresh_row()
 
         for field in self.fieldnames:
@@ -34,8 +32,6 @@ class ExcelDictWriter:
     def writerow(self, row: dict):
         if len(row) != len(self.fieldnames):
             raise ValueError
-
-        # cell = self._cell
 
         self._fresh_row()
 
@@ -58,7 +54,6 @@ class ExcelDictWriter:
 
 
     def _fresh_row(self) -> None:
-        # cell = self._cell
         if self._cell.col > 0:
             self._cell.nextrow()
 
