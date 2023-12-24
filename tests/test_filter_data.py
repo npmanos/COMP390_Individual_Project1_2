@@ -13,9 +13,14 @@ def mock_outputs(monkeypatch: MonkeyPatch):
     @staticmethod
     def mock_text_output(data: list[dict], field: str):
         print(f'TextFileOutput selected. data: {data}, field: {field}')
+    
+    @staticmethod
+    def mock_excel_output(data: list[dict], field: str):
+        print(f'ExcelFileOutput selected. data: {data}, field: {field}')
 
     monkeypatch.setitem(OUTPUT_OPTIONS['terminal'], "func", mock_term_output)
     monkeypatch.setitem(OUTPUT_OPTIONS['text'], "func", mock_text_output)
+    monkeypatch.setitem(OUTPUT_OPTIONS['excel'], 'func', mock_excel_output)
 
 
 @fixture
@@ -65,11 +70,12 @@ class TestSelectOutput:
     expected_menu = '''\x1B[36mHow would you like to output the filtered results?\x1B[39m
 1 - Display on screen
 2 - Save to a text (.txt) file
+3 - Save to an Excel (.xls) file
 q - Quit the application
 \x1B[36mType a letter or number to select your choice
 \x1B[39m> \x1B[32m\x1B[39m'''
 
-    @mark.parametrize('sim_input,field,output_option', [('1\n', 'mass (g)', 'TerminalOutput'), ('1\n', 'year', 'TerminalOutput'), ('2\n', 'mass (g)', 'TextFileOutput'), ('2\n', 'year', 'TextFileOutput')])
+    @mark.parametrize('sim_input,field,output_option', [('1\n', 'mass (g)', 'TerminalOutput'), ('1\n', 'year', 'TerminalOutput'), ('2\n', 'mass (g)', 'TextFileOutput'), ('2\n', 'year', 'TextFileOutput'), ('3\n', 'mass (g)', 'ExcelFileOutput'), ('3\n', 'year', 'ExcelFileOutput')])
     def test_select_valid_output(self, sim_input: str, field: str, output_option: str, mock_outputs, write_stdin, capfd: CaptureFixture[str]):
         write_stdin(sim_input)
         select_output(self.data, field)
