@@ -15,18 +15,18 @@ class ExcelDictWriter:
         fieldnames (list[str]): The list of field names for the Excel columns.
     """
     def __init__(self, xls_path: str, fieldnames: list[str]) -> None:
-            """
-            Initializes an instance of the ExcelDictWriter class.
+        """
+        Initializes an instance of the ExcelDictWriter class.
 
-            Args:
-                xls_path (str): The path to the Excel file.
-                fieldnames (list[str]): The list of field names for the Excel columns.
-            """
-            self._path = xls_path
-            self._fieldnames = fieldnames
-            self._workbook = Workbook()
-            self._sheet: Worksheet = self._workbook.add_sheet('filteredMeteoriteData')
-            self._cell = ExcelDictWriter._CellPointer(len(self.fieldnames))
+        Args:
+            xls_path (str): The path to the Excel file.
+            fieldnames (list[str]): The list of field names for the Excel columns.
+        """
+        self._path = xls_path
+        self._fieldnames = fieldnames
+        self._workbook = Workbook()
+        self._sheet: Worksheet = self._workbook.add_sheet('filteredMeteoriteData')
+        self._cell = ExcelDictWriter._CellPointer(len(self.fieldnames))
 
 
     @property
