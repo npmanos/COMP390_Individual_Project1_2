@@ -24,8 +24,7 @@ class ExcelDictWriter:
     def writeheader(self) -> None:
         cell = self._cell
 
-        if cell.row > 0 and cell.col > 0:
-            cell.nextrow()
+        self._fresh_row()
 
         for field in self.fieldnames:
             self._sheet.write(cell.row, cell.col, field)
@@ -38,10 +37,13 @@ class ExcelDictWriter:
 
         cell = self._cell
 
-        if cell.row > 0 and cell.col > 0:
-            cell.nextrow()
+        self._fresh_row()
 
         for field in self.fieldnames:
+            if row[field] is None:
+                cell += 1
+                continue
+
             self._sheet.write(cell.row, cell.col, row[field])
             cell += 1
 
@@ -49,6 +51,12 @@ class ExcelDictWriter:
     def writerows(self, rows: list[dict]) -> None:
         for row in rows:
             self.writerow(row)
+
+
+    def _fresh_row(self) -> None:
+        cell = self._cell
+        if cell.col > 0:
+            cell.nextrow()
 
 
     class _CellPointer:
