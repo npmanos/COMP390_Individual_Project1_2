@@ -85,12 +85,12 @@ class Menu:
 
     def __call__(self):
         print(self, end='')
-        selection = finput(self.prompt, TERM_FG_GREEN)
+        selection = finput(self.prompt, TERM_FG_GREEN).lower()
 
-        if selection in ('b', 'B', '?b', '?B') and self.back:
+        if selection in ('b', 'B', '?b', '?B', '>b', '>B') and self.back:
             return
 
-        if selection in ('q', 'Q', '?q', '?Q') and self.quittable:
+        if selection in ('q', 'Q', '?q', '?Q', '>q', '>Q') and self.quittable:
             quit_app()
 
         try:
