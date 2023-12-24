@@ -22,30 +22,30 @@ class ExcelDictWriter:
 
 
     def writeheader(self) -> None:
-        cell = self._cell
+        # cell = self._cell
 
         self._fresh_row()
 
         for field in self.fieldnames:
-            self._sheet.write(cell.row, cell.col, field)
-            cell += 1
+            self._sheet.write(self._cell.row, self._cell.col, field)
+            self._cell += 1
 
 
     def writerow(self, row: dict):
         if len(row) != len(self.fieldnames):
             raise ValueError
 
-        cell = self._cell
+        # cell = self._cell
 
         self._fresh_row()
 
         for field in self.fieldnames:
             if row[field] is None:
-                cell += 1
+                self._cell += 1
                 continue
 
-            self._sheet.write(cell.row, cell.col, row[field])
-            cell += 1
+            self._sheet.write(self._cell.row, self._cell.col, row[field])
+            self._cell += 1
 
 
     def writerows(self, rows: list[dict]) -> None:
@@ -58,9 +58,9 @@ class ExcelDictWriter:
 
 
     def _fresh_row(self) -> None:
-        cell = self._cell
-        if cell.col > 0:
-            cell.nextrow()
+        # cell = self._cell
+        if self._cell.col > 0:
+            self._cell.nextrow()
 
 
     class _CellPointer:
@@ -103,11 +103,11 @@ class ExcelDictWriter:
 
 
         def __add__(self, other: int):
-            rows_inc = other // self._row_length
-            cols_inc = other % self._row_length
+            self.row += (self.col + other) // self._row_length
+            self.col = (self.col + other) % self._row_length
 
-            self.row += rows_inc
-            self.col += cols_inc
+            # self.row += rows_inc
+            # self.col += cols_inc
 
             return self
 
