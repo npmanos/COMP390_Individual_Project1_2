@@ -43,33 +43,14 @@ def open_file() -> DSVDictReader:
         open_mode += mode
 
     open_mode_menu = Menu(
-        [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES],
+        {mode['param']: MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES},
         'What mode would you like to use to open the file?',
         default=0
     )
 
     open_mode_menu()
 
-    open_format_menu = Menu(
-        [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_FORMATS],
-        'What format would you like to use to open the file?',
-        default=0
-    )
-
-    open_format_menu()
-
-    open_rw_menu = Menu(
-        [
-            MenuItem('Yes', lambda: '+', set_open_mode),
-            MenuItem('No', lambda: '', set_open_mode)
-        ],
-        'Would you like to open the file for reading and writing?',
-        default=1
-    )
-
-    open_rw_menu()
-
-    print(f'Opening file {term_format(term_format(file_name, TERM_FG_GREEN), TERM_ITALIC)} using {TERM_FG_GREEN[0]}{TERM_ITALIC[0]}{OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""}{TERM_FG_DEFAULT}{TERM_ITALIC[1]} mode...\n')
+    print(f'Opening file {term_format(file_name, [TERM_ITALIC, TERM_FG_GREEN])} using {term_format(OPEN_SHORT_DESCS[open_mode[0]], [TERM_ITALIC, TERM_FG_GREEN])} mode...\n')
 
     # Create a reader
     try:
