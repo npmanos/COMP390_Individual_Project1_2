@@ -1,3 +1,7 @@
+"""
+This module contains constants and utility functions for formatting terminal text.
+"""
+
 TERM_RESET = '\u001b[0m'
 
 TERM_BOLD = ('\u001b[1m', '\u001b[22m')
@@ -30,6 +34,12 @@ TERM_BG_CYAN = ('\u001b[46m', TERM_BG_DEFAULT)
 TERM_BG_WHITE = ('\u001b[47m', TERM_BG_DEFAULT)
 
 def throw_error(msg: str):
+    """
+    Prints an error message in red color and pauses the program execution.
+
+    Args:
+        msg (str): The error message to be displayed.
+    """
     print(
         term_format(
             term_format(
@@ -39,33 +49,68 @@ def throw_error(msg: str):
             TERM_BOLD
         )
     )
-
     pause()
 
+
 def pause():
+    """
+    Pauses the program and waits for user input to continue.
+    """
     input(term_format('Press any key to continue...\n', TERM_BOLD))
 
+
 def clear():
+    """
+    Clears the terminal screen.
+    """
     print('\u001b[2J')
 
 
-def term_format(text: str, format: tuple[str, str] | list[tuple[str, str]]) -> str:
-    if isinstance(format, tuple):
-        return f'{format[0]}{text}{format[1]}'
+def term_format(text: str, formats: tuple[str, str] | list[tuple[str, str]]) -> str:
+    """
+    Formats the given text with the specified formatting.
+
+    Args:
+        text (str): The text to be formatted.
+        formats (tuple[str, str] | list[tuple[str, str]]): The formatting to be applied. 
+            It can be a tuple of start and end formatting strings, or a list of multiple 
+            start and end formatting tuples.
+
+    Returns:
+        str: The formatted text.
+    """
+    if isinstance(formats, tuple):
+        return f'{formats[0]}{text}{formats[1]}'
 
     format_str, unformat_str = str(), str()
-    for (start, end) in format:
+    for (start, end) in formats:
         format_str += start
         unformat_str = end + unformat_str
     
     return f'{format_str}{text}{unformat_str}'
 
-def finput(prompt: str, format: tuple[str, str]) -> str:
-    in_str = input(f'{prompt}{format[0]}')
-    print(format[1], end='')
 
+def finput(prompt: str, formats: tuple[str, str]) -> str:
+    """
+    Prompt the user for input and return the input as a string.
+
+    Args:
+        prompt (str): The prompt to display to the user.
+        formats (tuple[str, str]): A tuple containing the formatting to display the user's input with.
+
+    Returns:
+        str: The user input as a string.
+    """
+    in_str = input(f'{prompt}{formats[0]}')
+    print(formats[1], end='')
     return in_str
 
+
 def quit_app():
-    print('\nQuitting applicaiton... Goodbye!')
+    """
+    Quit the application.
+
+    This function prints a goodbye message and raises a SystemExit exception to terminate the program.
+    """
+    print('\nQuitting application... Goodbye!')
     raise SystemExit(0)

@@ -1,3 +1,7 @@
+"""
+This module contains string constants for use in the therminal interface.
+"""
+
 from meteorite_filter.output import ExcelFileOutput, TerminalOutput, TextFileOutput
 from meteorite_filter.tui.utils import TERM_FG_RED, term_format
 
