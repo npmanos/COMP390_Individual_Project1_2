@@ -29,10 +29,10 @@ def main():
 
 
 def open_file() -> DSVDictReader:
-    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type "?q"', TERM_FG_CYAN)) # '?' is not a valid filename in Windows and is used in case a user has a file named 'q'. This remains an issue on Linux and macOS
+    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type ">q" or ">Q"', TERM_FG_CYAN)) # '?' and '>' are not valid filename characters in Windows and is used in case a user has a file named 'q'. This remains an issue on Linux and macOS
     file_name = finput('> ', TERM_FG_GREEN)
 
-    if file_name in ('?q', '?Q'):
+    if file_name in ('?q', '?Q', '>q', '>Q'):
         quit_app()
 
     print()
@@ -43,33 +43,14 @@ def open_file() -> DSVDictReader:
         open_mode += mode
 
     open_mode_menu = Menu(
-        [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES],
+        {mode['param']: MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES},
         'What mode would you like to use to open the file?',
-        default=0
+        default=0, quit_label='>q'
     )
 
     open_mode_menu()
 
-    open_format_menu = Menu(
-        [MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_FORMATS],
-        'What format would you like to use to open the file?',
-        default=0
-    )
-
-    open_format_menu()
-
-    open_rw_menu = Menu(
-        [
-            MenuItem('Yes', lambda: '+', set_open_mode),
-            MenuItem('No', lambda: '', set_open_mode)
-        ],
-        'Would you like to open the file for reading and writing?',
-        default=1
-    )
-
-    open_rw_menu()
-
-    print(f'Opening file {term_format(term_format(file_name, TERM_FG_GREEN), TERM_ITALIC)} using {TERM_FG_GREEN[0]}{TERM_ITALIC[0]}{OPEN_SHORT_DESCS[open_mode[0]]}{" "+OPEN_SHORT_DESCS[open_mode[1]]}{" (read/write)" if len(open_mode) == 3 else ""}{TERM_FG_DEFAULT}{TERM_ITALIC[1]} mode...\n')
+    print(f'Opening file {term_format(file_name, [TERM_ITALIC, TERM_FG_GREEN])} using {term_format(OPEN_SHORT_DESCS[open_mode[0]], [TERM_ITALIC, TERM_FG_GREEN])} mode...\n')
 
     # Create a reader
     try:
@@ -83,16 +64,16 @@ def open_file() -> DSVDictReader:
 
 
 def filter_range_input(desc: str) -> tuple[float, float]:
-    print(term_format('Enter a number for the upper and lower filter limits or type "q" to quit.\nYou may leave one limit blank.', TERM_FG_CYAN))
+    print(term_format('Enter a number for the upper and lower filter limits or type "Q" to quit.\nYou may leave one limit blank.', TERM_FG_CYAN))
 
     min_input = finput(f'Enter the LOWER limit (inclusive) for {desc}: ', TERM_FG_GREEN)
 
-    if 'q' == min_input:
+    if 'Q' == min_input:
         quit_app()
 
     max_input = finput(f'Enter the UPPER limit (inclusive) for {desc}: ', TERM_FG_GREEN)
 
-    if 'q' == max_input:
+    if 'Q' == max_input:
         quit_app()
     
     if min_input == '' and max_input == '':

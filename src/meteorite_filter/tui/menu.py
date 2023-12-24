@@ -23,21 +23,25 @@ class MenuItem:
 class Menu:
     def __init__(
             self,
-            items: list[MenuItem],
+            items: list[MenuItem] | dict[str, MenuItem],
             preamble: str | None = None, prompt='> ',
             default: int | None = None,
             back=False,
-            quittable=True
+            quittable=True,
+            back_label='b',
+            quit_label='q'
         ) -> None:
-        self._items = items
+        self._items = self._normalize_menu_items(items)
         self._preamble = preamble
         self._default = default
         self._prompt = prompt
         self.back = back
+        self._back_label = back_label
         self.quittable = quittable
+        self._quit_label = quit_label
 
     @property
-    def items(self) -> list[MenuItem]:
+    def items(self) -> dict[str, MenuItem]:
         return self._items
 
 
@@ -49,10 +53,18 @@ class Menu:
     @property
     def prompt(self) -> str:
         return self._prompt
-    
+
+
     @property
     def default(self) -> int | None:
         return self._default
+    
+
+    def _normalize_menu_items(self, items: list[MenuItem] | dict[str, MenuItem]) -> dict[str, MenuItem]:
+        if isinstance(items, dict):
+            return items
+        
+        return {str(idx): value for idx, value in enumerate(items, 1)}
 
 
     def __str__(self) -> str:
@@ -61,14 +73,14 @@ class Menu:
         if self.preamble is not None:
             output += term_format(self.preamble, TERM_FG_CYAN) + '\n'
 
-        for idx, item in enumerate(self.items, 1):
-            output += f'{idx} - {item.label}{" (default)" if (idx - 1) == self._default else ""}\n'
+        for idx, (key, item) in enumerate(self.items.items(), 1):
+            output += f'{key} - {item.label}{" (default)" if (idx - 1) == self._default else ""}\n'
 
         if self.back:
-            output += 'b - Return to the previous menu\n'
+            output += f'{self._back_label} - Return to the previous menu\n'
 
         if self.quittable:
-            output += 'q - Quit the application\n'
+            output += f'{self._quit_label} - Quit the application\n'
 
         output += term_format(f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}\n', TERM_FG_CYAN)
 
@@ -77,24 +89,24 @@ class Menu:
 
     def __call__(self):
         print(self, end='')
-        selection = finput(self.prompt, TERM_FG_GREEN)
+        selection = finput(self.prompt, TERM_FG_GREEN).lower()
 
-        if selection in ('b', 'B', '?b', '?B') and self.back:
+        if selection in ('b', 'B', '?b', '?B', '>b', '>B', self._back_label) and selection not in self._items.keys() and self.back:
             return
 
-        if selection in ('q', 'Q', '?q', '?Q') and self.quittable:
+        if selection in ('q', 'Q', '?q', '?Q', '>q', '>Q', self._quit_label) and selection not in self._items.keys() and self.quittable:
             quit_app()
 
         try:
             if selection == '' and self._default is not None:
-                menu_idx = self._default
+                menu_key = menu_key = list(self.items.keys())[self._default]
             else:
-                menu_idx = int(selection) - 1 if int(selection) - 1 >= 0 else None
+                menu_key = selection
             
-            if menu_idx is None:
+            if menu_key not in self.items.keys():
                 raise ValueError
 
-            menu_item = self.items[menu_idx]
+            menu_item = self.items[menu_key]
         except (ValueError, IndexError):
             throw_error('Invalid option. Please enter the number or letter of your selection.')
             self()

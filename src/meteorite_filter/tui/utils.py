@@ -48,8 +48,17 @@ def pause():
 def clear():
     print('\u001b[2J')
 
-def term_format(text: str, format: tuple[str, str]) -> str:
-    return f'{format[0]}{text}{format[1]}'
+
+def term_format(text: str, format: tuple[str, str] | list[tuple[str, str]]) -> str:
+    if isinstance(format, tuple):
+        return f'{format[0]}{text}{format[1]}'
+
+    format_str, unformat_str = str(), str()
+    for (start, end) in format:
+        format_str += start
+        unformat_str = end + unformat_str
+    
+    return f'{format_str}{text}{unformat_str}'
 
 def finput(prompt: str, format: tuple[str, str]) -> str:
     in_str = input(f'{prompt}{format[0]}')
