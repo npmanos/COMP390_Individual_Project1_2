@@ -32,6 +32,20 @@ class ExcelDictWriter:
             cell += 1
 
 
+    def writerow(self, row: dict):
+        if len(row) != len(self.fieldnames):
+            raise ValueError
+
+        cell = self._cell
+
+        if cell.row > 0 and cell.col > 0:
+            cell.nextrow()
+
+        for field in self.fieldnames:
+            self._sheet.write(cell.row, cell.col, row[field])
+            cell += 1
+
+
     class _CellPointer:
         _row = 0
         _col = 0
