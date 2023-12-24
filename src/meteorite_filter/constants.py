@@ -32,7 +32,7 @@ OPEN_MODES = [
     },
     {
         'param': 'w',
-        'desc': f'open for writing, truncating the file first {term_format('WARNING: This will delete any contents of the file', TERM_FG_RED)}',
+        'desc': f'open for writing, truncating the file first {term_format('WARNING: This will delete all contents of the file', TERM_FG_RED)}',
         'short_desc': 'write (truncate)'
     },
     {
