@@ -7,6 +7,9 @@ from meteorite_filter.tui.utils import *
 
 
 class MenuItem:
+    """
+    Class representing a menu item with a label, function call, and optional callback.
+    """
     def __init__(self, label: str, func_call, callback=None) -> None:
         """
         Represents a menu item with a label, function call, and optional callback.
@@ -51,6 +54,9 @@ class MenuItem:
 
 
 class Menu:
+    """
+    Represents a menu with selectable items.
+    """
     def __init__(self, items: list[MenuItem] | dict[str, MenuItem], preamble: str | None = None, prompt='> ', default: int | None = None, back=False, quittable=True, back_label='b', quit_label='q') -> None:
         """
         Represents a menu with selectable items.
