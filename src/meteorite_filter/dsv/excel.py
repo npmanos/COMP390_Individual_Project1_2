@@ -53,6 +53,10 @@ class ExcelDictWriter:
             self.writerow(row)
 
 
+    def save(self) -> None:
+        self._workbook.save(self.path)
+
+
     def _fresh_row(self) -> None:
         cell = self._cell
         if cell.col > 0:
