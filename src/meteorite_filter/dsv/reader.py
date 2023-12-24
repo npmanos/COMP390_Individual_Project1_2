@@ -26,7 +26,7 @@ class DSVReader:
             newline: The character(s) that separate lines. If None, the default
                 line separator for the operating system will be used.
         """
-        self._file = open(dsv_path, mode, newline=newline)
+        self._file = open(dsv_path, mode, newline=newline, encoding='utf-8')
         self.delimiter = delimiter
         self._line_num = 0
 
