@@ -1,4 +1,4 @@
-# Individual Coding Assignment #1.1
+# Individual Coding Assignment #1.2
 
 Bridgewater State University - Computer Science Dept.
 
@@ -23,9 +23,13 @@ The Meteorite Data Filter application allows you to filter a data file containin
 
    If a field has no value, it must be left blank between tabs.
 
-### Demo
+### Installation
 
-[![asciicast](https://asciinema.org/a/SBSSGbBN0Ht1djIIWQdwkNunS.svg)](https://asciinema.org/a/SBSSGbBN0Ht1djIIWQdwkNunS)
+To install this program, download and extract the zip file, navigate to the folder in your command line or terminal, and type the following command:
+
+```
+python3 -m pip install -r requirements.txt
+```
 
 ### Using The Application
 
@@ -44,36 +48,17 @@ The Meteorite Data Filter application allows you to filter a data file containin
 3. Next, you will select which mode to use to attempt to open the file:
 
    ```
-   1 - open for reading (default)
-   2 - open for writing, truncating the file first
-   3 - open for exclusive creation, failing if the file already exists
-   4 - open for writing, appending to the end of the file if it exists
-   q - Quit the application
+   r - open for reading (default)
+   w - open for writing, truncating the file first (WARNING: This will delete
+       all contents of the file)
+   x - open for exclusive creation, failing if the file already exists
+   a - open for writing, appending to the end of the file if it exists
+   >q - Quit the application
    ```
    
    Type the number or letter of your choice. For most users, the default option (`1`) is best.
 
-4. Then, you will select which format to use for opening the data file:
-
-   ```
-   1 - text mode (default)
-   2 - binary mode
-   q - Quit the application
-   ```
-
-   Once again, the default option (`1`) is the best option for most users.
-
-5. Finally, you will be asked if you'd like to open the file for reading and writing:
-
-   ```
-   1 - Yes
-   2 - No (default)
-   q - Quit the application
-   ```
-
-   Again, most users should choose the default (`2`).
-
-6. The application will now attempt to open your file using the options you've chosen. If unsuccessful, you will be given a chance to try change your selections.
+4. The application will now attempt to open your file using the options you've chosen. If unsuccessful, you will be given a chance to try change your selections.
 
    If opening your file succeeds, you will be shown a menu to choose whether you'd like to filter by year or mass:
 
@@ -85,7 +70,7 @@ The Meteorite Data Filter application allows you to filter a data file containin
 
    Type the number of your choice. The remainder of this manual will use year (option `2`) for its examples.
 
-7. You will now be prompted to provide the range of your filter:
+5. You will now be prompted to provide the range of your filter:
 
    ```
    Enter the LOWER limit (inclusive) for the year the meteorite fell: 1901
@@ -99,7 +84,16 @@ The Meteorite Data Filter application allows you to filter a data file containin
    Enter the UPPER limit (inclusive) for the year the meteorite fell: 1902
    ```
 
-8. You will now be shown a table with your filtered data:
+6. You will now be asked what kind of output you'd like for the filtered data:
+   
+   ```
+   1 - Display on screen
+   2 - Save to a text (.txt) file
+   3 - Save to an Excel (.xls) file
+   q - Quit the application
+   ```
+
+7. If you chose options 2 or 3, you will find the data in a file saved to your current folder. The file name will use the current date and time. If you chose option 1, you will now be shown a table with your filtered data:
    
    ```
         NAME                         YEAR
@@ -113,16 +107,14 @@ The Meteorite Data Filter application allows you to filter a data file containin
 
    *Table shortened for length*
 
-9. You will again be shown the menu to choose the field to filter your data by. You may filter the data as many times with as many different ranges as you wish.
+8. You will again be shown the menu to choose the field to filter your data by. You may filter the data as many times with as many different ranges as you wish.
 
-10. When you are done, type `q` to quit the application. You may also quit by typing `q` at any prompt throughout the application.
+9.  When you are done, type `Q` to quit the application. You may also quit by typing `Q` at any prompt throughout the application.
     
-    **NOTE:** You must type `?q` to quit at the file name prompt. Failure to include the `?` will result in the application attempting to open a file named "`q`".
+    **NOTE:** You must type `>Q` to quit at the file name prompt. Failure to include the `>` will result in the application attempting to open a file named "`Q`".
 
 ## Project Status
 
 All project requirements completed.
 
-For full project requirements, see [COMP390F23_code_assignment_1_1.pdf](docs/COMP390F23_code_assignment_1_1.pdf)
-
-While not required by this project, additional comments and docstrings need to be written or updated.
+For full project requirements, see [COMP390F23_code_assignment_1_2.pdf](docs/COMP390F23_code_assignment_1_2.pdf)
