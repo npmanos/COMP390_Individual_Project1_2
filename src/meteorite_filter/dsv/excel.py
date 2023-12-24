@@ -1,4 +1,5 @@
 from xlwt import Workbook
+from xlwt.Worksheet import Worksheet
 
 
 class ExcelDictWriter:
@@ -6,7 +7,7 @@ class ExcelDictWriter:
         self._path = xls_path
         self._fieldnames = fieldnames
         self._workbook = Workbook()
-        self._sheet = self._workbook.add_sheet('filteredMeteoriteData')
+        self._sheet: Worksheet = self._workbook.add_sheet('filteredMeteoriteData')
         self._cell = ExcelDictWriter._CellPointer(len(self.fieldnames))
 
 
@@ -18,6 +19,17 @@ class ExcelDictWriter:
     @property
     def fieldnames(self) -> list[str]:
         return self._fieldnames
+
+
+    def writeheader(self) -> None:
+        cell = self._cell
+
+        if cell.row > 0 and cell.col > 0:
+            cell.nextrow()
+
+        for field in self.fieldnames:
+            self._sheet.write(cell.row, cell.col, field)
+            cell += 1
 
 
     class _CellPointer:
@@ -54,17 +66,26 @@ class ExcelDictWriter:
             self._col = num
 
 
-        def __iadd__(self, other: int) -> None:
+        def nextrow(self) -> None:
+            self.row += 1
+            self.col = 0
+
+
+        def __add__(self, other: int):
             rows_inc = other // self._row_length
             cols_inc = other % self._row_length
 
             self.row += rows_inc
             self.col += cols_inc
 
+            return self
 
-        def __isub__(self, other: int) -> None:
+
+        def __sub__(self, other: int):
             rows_inc = other // self._row_length
             cols_inc = other % self._row_length
 
             self.row -= rows_inc
             self.col -= cols_inc
+
+            return self
