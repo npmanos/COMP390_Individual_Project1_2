@@ -1,6 +1,5 @@
-from datetime import datetime, date
 from pathlib import Path
-from pytest import MonkeyPatch, fixture
+from pytest import MonkeyPatch
 from meteorite_filter.output import TerminalOutput, TextFileOutput
 from meteorite_filter.tui.table import TablePrinter
 
@@ -33,10 +32,8 @@ class TestTerminalOutput:
         assert captured.out == expected_output
 
 
-
-
 class TestTextFileOutput:
-    def test_output(self, tmp_path, monkeypatch: MonkeyPatch):
+    def test_output(self, tmp_path: Path, monkeypatch: MonkeyPatch):
         data = [
             {'name': 'Meteorite 1', 'mass (g)': '-1.0'},
             {'name': 'Meteorite 2', 'mass (g)': '0.0'},
@@ -47,12 +44,8 @@ class TestTextFileOutput:
         path: Path = tmp_path / 'TestTextFileOutput'
         path.mkdir()
         path = path / 'test_output.txt'
-
-        class PatchedDatetime(datetime):
-            def strftime(self, format: str) -> str:
-                return str(path)
         
-        monkeypatch.setattr('meteorite_filter.output.dt', PatchedDatetime)
+        monkeypatch.setattr('meteorite_filter.output._gen_filename', lambda *args, **kargs: str(path))
 
         TextFileOutput.output(data, field)
 
