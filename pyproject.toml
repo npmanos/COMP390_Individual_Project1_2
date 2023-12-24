@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "meteorite_filter"
+version = "1.2.0"
+authors = [
+  { name="Nick Manos", email="nmanos@student.bridgew.edu" },
+]
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 4 - Beta",
+
+  "Environment :: Console",
+
+  # Indicate who your project is intended for
+  "Intended Audience :: Education",
+  "Topic :: Education",
+  "Topic :: Text Processing :: Filters",
+  "Operating System :: OS Independent",
+
+  # Specify the Python versions you support here.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+
+  # Don't upload to PyPI
+  "Private :: Do Not Upload"
+]
+
+[project.urls]
+Homepage = "https://github.com/npmanos/COMP390_Individual_Project1_2"
+Issues = "https://github.com/npmanos/COMP390_Individual_Project1_2/issues"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"

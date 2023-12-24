@@ -26,7 +26,7 @@ class DSVReader:
             newline: The character(s) that separate lines. If None, the default
                 line separator for the operating system will be used.
         """
-        self._file = open(dsv_path, mode, newline=newline)
+        self._file = open(dsv_path, mode, newline=newline, encoding='utf-8')
         self.delimiter = delimiter
         self._line_num = 0
 
@@ -64,13 +64,7 @@ class DSVDictReader(DSVReader):
     A class for reading a DSV file and returning the data as a dictionary.
     '''
 
-    def __init__(
-            self,
-            dsv_path: str,
-            delimiter=',',
-            fieldnames: list[str] | None=None,
-            type_map: dict | None=None,
-            mode: str = 'r'):
+    def __init__(self, dsv_path: str, delimiter=',', fieldnames: list[str] | None=None, type_map: dict | None=None, mode: str = 'r'):
         """Initialize a DSVDictReader object.
 
         Args:
@@ -106,9 +100,6 @@ class DSVDictReader(DSVReader):
 
         if self._type_map is not None:
             for field, type_func in self._type_map.items():
-                if row_dict[field] != '':
-                    row_dict[field] = type_func(row_dict[field])
-                else:
-                    row_dict[field] = None #type: ignore
+                row_dict[field] = type_func(row_dict[field]) if row_dict[field] != '' else None #type: ignore
 
         return row_dict

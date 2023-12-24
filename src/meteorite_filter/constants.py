@@ -1,19 +1,17 @@
-# WELCOME_MESSAGE = '''\
-# Meteorite Data Filter
-# (c) October 2023 Nick Manos
-        
-# Welcome! This application allows you to filter a provided meteorite data file.
+"""
+This module contains string constants for use in the therminal interface.
+"""
 
-# To begin, please type the filename, including its file extension and path if
-# necessary. (Ex: "meteorite_landings_data.txt") To exit the application, type "?q":\
-# '''
+from meteorite_filter.output import ExcelFileOutput, TerminalOutput, TextFileOutput
+from meteorite_filter.tui.utils import TERM_FG_RED, term_format
+
 
 WELCOME_MESSAGE = '''\
   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   ┃                          METEORITE DATA FILTER                           ┃
   ┃                                                                          ┃
   ┃ Welcome! This application allows you to filter meteorite landing data by ┃
-  ┃ mass and year.                                                           ┃
+  ┃ mass and year, then optionally save the filtered data to a file.         ┃
   ┃                                                                          ┃
   ┃ Instructions:                                                            ┃
   ┃   You must provide a file containing the meteorite data in a specific    ┃
@@ -21,12 +19,12 @@ WELCOME_MESSAGE = '''\
   ┃   of the 12 fields must be "name", "mass (g)", and "year".               ┃
   ┃                                                                          ┃
   ┃   On-screen instructions are provided to guide you through using the     ┃
-  ┃   program. When presented with multiple options, type the number of your ┃
-  ┃   choice followed by the enter key. If there is a default option, you    ┃
-  ┃   can just press the enter key to select it. You may also type "q" to    ┃
-  ┃   exit the application.                                                  ┃
+  ┃   program. When presented with multiple options, type the letter or      ┃
+  ┃   number of your choice followed by the enter key. If there is a default ┃
+  ┃   option, you can just press the enter key to select it. You may also    ┃
+  ┃   type "q" to exit the application.                                      ┃
   ┃                                                                          ┃
-  ┃                                              (c) October 2023 Nick Manos ┃
+  ┃                                             (c) December 2023 Nick Manos ┃
   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 '''
 
@@ -38,7 +36,7 @@ OPEN_MODES = [
     },
     {
         'param': 'w',
-        'desc': 'open for writing, truncating the file first',
+        'desc': f'open for writing, truncating the file first {term_format('(WARNING: This will delete\n    all contents of the file)', TERM_FG_RED)}',
         'short_desc': 'write (truncate)'
     },
     {
@@ -89,13 +87,28 @@ TYPE_MAP = {
 
 FILTER_OPTIONS = {
     'mass (g)': {
-            'menu_desc': 'Meteorite mass',
-            'input_desc': "the meteorite's mass in grams",
-            'header': 'MASS (g)'
-        },
+        'menu_desc': 'Meteorite mass',
+        'input_desc': "the meteorite's mass in grams",
+        'header': 'MASS (g)'
+    },
     'year': {
-            'menu_desc': 'Year meteorite fell',
-            'input_desc': 'the year the meteorite fell',
-            'header': 'YEAR'
-        }
+        'menu_desc': 'Year meteorite fell',
+        'input_desc': 'the year the meteorite fell',
+        'header': 'YEAR'
+    }
+}
+
+OUTPUT_OPTIONS = {
+    'terminal': {
+        'menu_desc': 'Display on screen',
+        'func': TerminalOutput.output
+    },
+    'text': {
+        'menu_desc': 'Save to a text (.txt) file',
+        'func': TextFileOutput.output
+    },
+    'excel': {
+        'menu_desc': 'Save to an Excel (.xls) file',
+        'func': ExcelFileOutput.output
+    }
 }
