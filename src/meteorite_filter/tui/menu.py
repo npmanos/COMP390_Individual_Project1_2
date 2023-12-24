@@ -27,14 +27,18 @@ class Menu:
             preamble: str | None = None, prompt='> ',
             default: int | None = None,
             back=False,
-            quittable=True
+            quittable=True,
+            back_label='b',
+            quit_label='q'
         ) -> None:
         self._items = self._normalize_menu_items(items)
         self._preamble = preamble
         self._default = default
         self._prompt = prompt
         self.back = back
+        self._back_label = back_label
         self.quittable = quittable
+        self._quit_label = quit_label
 
     @property
     def items(self) -> dict[str, MenuItem]:
@@ -73,10 +77,10 @@ class Menu:
             output += f'{key} - {item.label}{" (default)" if (idx - 1) == self._default else ""}\n'
 
         if self.back:
-            output += 'b - Return to the previous menu\n'
+            output += f'{self._back_label} - Return to the previous menu\n'
 
         if self.quittable:
-            output += 'q - Quit the application\n'
+            output += f'{self._quit_label} - Quit the application\n'
 
         output += term_format(f'Type a letter or number to select your choice{" or press enter for the default" if self.default is not None else ""}\n', TERM_FG_CYAN)
 
@@ -87,10 +91,10 @@ class Menu:
         print(self, end='')
         selection = finput(self.prompt, TERM_FG_GREEN).lower()
 
-        if selection in ('b', 'B', '?b', '?B', '>b', '>B') and self.back:
+        if selection in ('b', 'B', '?b', '?B', '>b', '>B', self._back_label) and selection not in self._items.keys() and self.back:
             return
 
-        if selection in ('q', 'Q', '?q', '?Q', '>q', '>Q') and self.quittable:
+        if selection in ('q', 'Q', '?q', '?Q', '>q', '>Q', self._quit_label) and selection not in self._items.keys() and self.quittable:
             quit_app()
 
         try:

@@ -1,4 +1,5 @@
 from meteorite_filter.output import ExcelFileOutput, TerminalOutput, TextFileOutput
+from meteorite_filter.tui.utils import TERM_FG_RED, term_format
 
 
 WELCOME_MESSAGE = '''\
@@ -6,7 +7,7 @@ WELCOME_MESSAGE = '''\
   ┃                          METEORITE DATA FILTER                           ┃
   ┃                                                                          ┃
   ┃ Welcome! This application allows you to filter meteorite landing data by ┃
-  ┃ mass and year.                                                           ┃
+  ┃ mass and year, then optionally save the filtered data to a file.         ┃
   ┃                                                                          ┃
   ┃ Instructions:                                                            ┃
   ┃   You must provide a file containing the meteorite data in a specific    ┃
@@ -14,12 +15,12 @@ WELCOME_MESSAGE = '''\
   ┃   of the 12 fields must be "name", "mass (g)", and "year".               ┃
   ┃                                                                          ┃
   ┃   On-screen instructions are provided to guide you through using the     ┃
-  ┃   program. When presented with multiple options, type the number of your ┃
-  ┃   choice followed by the enter key. If there is a default option, you    ┃
-  ┃   can just press the enter key to select it. You may also type "q" to    ┃
-  ┃   exit the application.                                                  ┃
+  ┃   program. When presented with multiple options, type the letter or      ┃
+  ┃   number of your choice followed by the enter key. If there is a default ┃
+  ┃   option, you can just press the enter key to select it. You may also    ┃
+  ┃   type "q" to exit the application.                                      ┃
   ┃                                                                          ┃
-  ┃                                              (c) October 2023 Nick Manos ┃
+  ┃                                             (c) December 2023 Nick Manos ┃
   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 '''
 
@@ -31,7 +32,7 @@ OPEN_MODES = [
     },
     {
         'param': 'w',
-        'desc': 'open for writing, truncating the file first',
+        'desc': f'open for writing, truncating the file first {term_format('WARNING: This will delete any contents of the file', TERM_FG_RED)}',
         'short_desc': 'write (truncate)'
     },
     {

@@ -29,10 +29,10 @@ def main():
 
 
 def open_file() -> DSVDictReader:
-    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type "?q"', TERM_FG_CYAN)) # '?' is not a valid filename in Windows and is used in case a user has a file named 'q'. This remains an issue on Linux and macOS
+    print(term_format('To begin, please type the filename, including its file extension and path if\nnecessary (ex: "file.txt"). To exit the application, type ">q" or ">Q"', TERM_FG_CYAN)) # '?' and '>' are not valid filename characters in Windows and is used in case a user has a file named 'q'. This remains an issue on Linux and macOS
     file_name = finput('> ', TERM_FG_GREEN)
 
-    if file_name in ('?q', '?Q'):
+    if file_name in ('?q', '?Q', '>q', '>Q'):
         quit_app()
 
     print()
@@ -45,7 +45,7 @@ def open_file() -> DSVDictReader:
     open_mode_menu = Menu(
         {mode['param']: MenuItem(mode['desc'], lambda m=mode['param']: m, set_open_mode) for mode in OPEN_MODES},
         'What mode would you like to use to open the file?',
-        default=0
+        default=0, quit_label='>q'
     )
 
     open_mode_menu()
@@ -64,16 +64,16 @@ def open_file() -> DSVDictReader:
 
 
 def filter_range_input(desc: str) -> tuple[float, float]:
-    print(term_format('Enter a number for the upper and lower filter limits or type "q" to quit.\nYou may leave one limit blank.', TERM_FG_CYAN))
+    print(term_format('Enter a number for the upper and lower filter limits or type "Q" to quit.\nYou may leave one limit blank.', TERM_FG_CYAN))
 
     min_input = finput(f'Enter the LOWER limit (inclusive) for {desc}: ', TERM_FG_GREEN)
 
-    if 'q' == min_input:
+    if 'Q' == min_input:
         quit_app()
 
     max_input = finput(f'Enter the UPPER limit (inclusive) for {desc}: ', TERM_FG_GREEN)
 
-    if 'q' == max_input:
+    if 'Q' == max_input:
         quit_app()
     
     if min_input == '' and max_input == '':
