@@ -64,6 +64,7 @@ class DSVWriter:
         """
         for row in rows:
             self._file.write(self._format_row(row))
+        self._file.flush()
 
 
     def _format_row(self, row: list) -> str:
