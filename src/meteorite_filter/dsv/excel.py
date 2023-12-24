@@ -46,6 +46,11 @@ class ExcelDictWriter:
             cell += 1
 
 
+    def writerows(self, rows: list[dict]) -> None:
+        for row in rows:
+            self.writerow(row)
+
+
     class _CellPointer:
         _row = 0
         _col = 0
